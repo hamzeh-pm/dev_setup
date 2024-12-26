@@ -1,0 +1,44 @@
+[env]
+TERM = "xterm-256color"
+
+[window]
+padding.x = 10
+padding.y = 10
+
+decorations = "Full"
+
+opacity = 0.85
+blur = true
+
+[font]
+size = 13.0
+
+[font.normal]
+family = "Fira Code Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "Fira Code Nerd Font"
+style = "Bold"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "Fira Code Nerd Font"
+style = "Italic"
+
+[font.offset]
+x = 0
+y = 0
+
+
+[colors]
+[colors.primary]
+background = "0x282c34"
+foreground = "0xf8f8f2"
+
+[terminal.shell]
+program = "/bin/zsh"
+args = ["-l", "-c", "tmux new-session -A -s main; exec /bin/zsh"]
