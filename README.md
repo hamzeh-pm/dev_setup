@@ -115,8 +115,11 @@ zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
-
+zstyle ':fzf-tab:*' popup-min-size 120  
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup # only if you have tmux
+
+# tmux command to get basic split window
+alias tmuxlayout="tmux split-window -h -l 35%; tmux split-window -v -l 50%;"
 ```
 ### install alacritty
 ```bash
