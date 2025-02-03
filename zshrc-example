@@ -168,5 +168,4 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' popup-min-size 120 
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
-alias tmuxlayout="tmux split-window -h -l 35%; t│
-mux split-window -v -l 50%;" 
+alias tmuxlayout="tmux split-window -h -l 35%; tmux split-window -v -l 50%;" 
