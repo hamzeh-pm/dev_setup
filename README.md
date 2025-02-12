@@ -118,7 +118,12 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' popup-min-size 120  
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup # only if you have tmux
 
-# tmux command to get basic split window
+# tmux command to get basic split window like this 
+# --------------------
+# |            |     |
+# |            |-----|
+# |            |     |
+# --------------------
 alias tmuxlayout="tmux split-window -h -l 35%; tmux split-window -v -l 50%;"
 ```
 ### install alacritty
@@ -126,7 +131,6 @@ alias tmuxlayout="tmux split-window -h -l 35%; tmux split-window -v -l 50%;"
 sudo apt install alacritty
 ```
 **copy** alacritty.toml file provided here into ***.config/alacritty/alacritty.toml***
-note: if not works copy alacritty.yml -> ***./config/alacritty/alacritty.yml***
 
 ### install tmux
 ```bash
@@ -134,7 +138,25 @@ sudo apt install tmux
 ```
 **copy** tmux.conf file provided here into ***.config/tmux/tmux.conf***
 
+### tpm(tmux package manager)
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+*** then do ctrl + b (tmux prefix) + I(capital I)***
 
 
+### install neovim
+***install neovim from snap store for better versioning
 
+### install kickstart
+pre requisite
+- fzf: fzf (v0.25.1 or greater)
+- live grep: ripgrep
+- find files: fd 
 
+```bash
+git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+rm -rf ~/.config/nvim/.git
+```
+
+after kickstart you can add your packages and customize options so easily 
