@@ -148,15 +148,16 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ### install neovim
 ***install neovim from snap store for better versioning
 
-### install kickstart
+### install LazyVim
 pre requisite
 - fzf: fzf (v0.25.1 or greater)
 - live grep: ripgrep
 - find files: fd 
 
 ```bash
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clone https://github.com/LazyVim/starter ~/.config/nvim
 rm -rf ~/.config/nvim/.git
 ```
 
-after kickstart you can add your packages and customize options so easily 
+after LazyVim you can add your packages and customize options so easily 
+***list of great packages to install and one i usually have with brief description is in the nvim-extra-detailed file***

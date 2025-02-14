@@ -1,0 +1,23 @@
+[core]
+	autocrlf = input
+
+[user]
+	name = Your Name
+	email = Your Email
+
+[merge]
+	tool = vscode
+
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+	prompt = false
+
+[diff]
+	tool = vscode
+
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+	prompt = false		
+
+[alias]
+	hist = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %C(blue)%an%Creset, %C(green)%ar%Creset'
