@@ -1,6 +1,8 @@
 [env]
 TERM = "xterm-256color"
 
+import = "~/.config/alacritty/dracula.toml
+
 [window]
 dimensions.columns = 90
 dimensions.lines = 60

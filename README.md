@@ -27,6 +27,12 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
+### install dracula theme for Powerlevel10k
+```bash
+git clone https://github.com/dracula/powerlevel10k.git
+```
+**copy** ***powerlevel10k/files/.p10k.zsh*** to ***~/.p10k.zsh***
+
 ### Install fzf
 ```bash
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -132,6 +138,13 @@ sudo apt install alacritty
 ```
 **copy** alacritty.toml file provided here into ***.config/alacritty/alacritty.toml***
 
+### install dracula theme for alacritty
+```bash
+https://github.com/dracula/alacritty/archive/master.zip
+```
+
+**copy** dracula.toml file to ***.config/alacritty/***
+
 ### install tmux
 ```bash
 sudo apt install tmux
@@ -142,7 +155,7 @@ sudo apt install tmux
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
-*** then do ctrl + b (tmux prefix) + I(capital I)***
+then do **ctrl + b (tmux prefix)** + **I(capital I)**
 
 
 ### install neovim
@@ -158,6 +171,7 @@ pre requisite
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 rm -rf ~/.config/nvim/.git
 ```
+**copy** lua folder to ***.config/nvim***
 
 after LazyVim you can add your packages and customize options so easily 
 ***list of great packages to install and one i usually have with brief description is in the nvim-extra-detailed file***
