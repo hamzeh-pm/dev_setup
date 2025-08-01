@@ -1,0 +1,119 @@
+"vim.useSystemClipboard": true,
+"vim.leader": "<space>",
+"vim.insertModeKeyBindings": [],
+"vim.normalModeKeyBindingsNonRecursive": [
+  // === FILE & PROJECT NAVIGATION ===
+  {
+    "before": ["<leader>", "e"],
+    "commands": ["workbench.view.explorer"]
+  },
+  {
+    "before": ["<leader>", "g"],
+    "commands": ["workbench.view.scm"]
+  },
+  {
+    "before": ["<leader>", "/"],
+    "commands": ["workbench.action.findInFiles"]
+  },
+  {
+    "before": ["<leader>", "<space>"],
+    "commands": ["workbench.action.quickOpen"]
+  },
+  {
+    "before": ["<leader>", "b"],
+    "commands": ["workbench.action.showAllEditors"]
+  },
+  {
+    "before": ["<leader>", "s", "S"],
+    "commands": ["workbench.action.showAllSymbols"]
+  },
+  {
+    "before": ["<leader>", "s", "s"],
+    "commands": ["workbench.action.gotoSymbol"]
+  },
+  {
+    "before": ["<leader>", "b", "d"],
+    "commands": ["workbench.action.closeActiveEditor"]
+  },
+  // === CODE ACTIONS & LSP ===
+  {
+    "before": ["<leader>", "c", "i"],
+    "commands": ["editor.action.triggerSuggest"]
+  },
+  {
+    "before": ["<leader>", "c", "a"],
+    "commands": ["editor.action.codeAction"]
+  },
+  {
+    "before": ["<leader>", "c", "f"],
+    "commands": ["editor.action.formatDocument"]
+  },
+  {
+    "before": ["<leader>", "c", "o"],
+    "commands": ["editor.action.organizeImports"]
+  },
+  {
+    "before": ["<leader>", "c", "r"],
+    "commands": ["workbench.action.rename"]
+  },
+  {
+    "before": ["<leader>", "x", "q"],
+    "commands": ["editor.action.quickFix"]
+  },
+  // === GO TO DEFINITION & REFERENCES ===
+  {
+    "before": ["<leader>", "g", "d"],
+    "commands": ["editor.action.revealDefinition"]
+  },
+  {
+    "before": ["<leader>", "g", "r"],
+    "commands": ["editor.action.goToReferences"]
+  },
+  {
+    "before": ["<leader>", "g", "I"],
+    "commands": ["editor.action.goToImplementation"]
+  },
+  {
+    "before": ["<S-k>"],
+    "commands": ["editor.action.showHover"]
+  },
+  // Better window navigation (like Neovim)
+  {
+    "before": ["<C-h>"],
+    "commands": ["workbench.action.focusLeftGroup"]
+  },
+  {
+    "before": ["<C-l>"],
+    "commands": ["workbench.action.focusRightGroup"]
+  },
+  {
+    "before": ["<C-j>"],
+    "commands": ["workbench.action.focusBelowGroup"]
+  },
+  {
+    "before": ["<C-k>"],
+    "commands": ["workbench.action.focusAboveGroup"]
+  }
+],
+"vim.visualModeKeyBindingsNonRecursive": [
+  // === TEXT MANIPULATION ===
+  {
+    "before": ["<S-k>"],
+    "commands": ["editor.action.moveLinesUpAction"],
+    "when": "editorTextFocus"
+  },
+  {
+    "before": ["<S-j>"],
+    "commands": ["editor.action.moveLinesDownAction"],
+    "when": "editorTextFocus"
+  },
+  {
+    "before": ["<C-n>"],
+    "commands": ["editor.action.addSelectionToNextFindMatch"],
+    "when": "editorTextFocus"
+  }
+],
+"vim.handleKeys": {
+  "<C-p>": false,
+  "<C-w>": false
+},

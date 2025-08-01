@@ -1,45 +1,58 @@
-# terminal_setup
+# deveopment machine setup
+
 how to setup your terminal
 
 ## steps
+
 ### install zsh
+
 ```bash
 sudo apt install zsh -y  # For Debian/Ubuntu
 sudo dnf install zsh -y  # For Fedora
 ```
 
-### make zsh your default theme
+Mac OS already have zsh as defautl shell
+
+### make zsh your default shell
+
 ```bash
 chsh -s $(which zsh)
 ```
 
 ### download and copy proper font
+
 - Fira Code Nerd Font (my suggestion)
 [download from here](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.nerdfonts.com/font-downloads&ved=2ahUKEwi7xfLt0sSKAxWY0gIHHTzJMisQFnoECBcQAQ&usg=AOvVaw3CWfI_QlL7GqdvUx4iob-O)
 
 ### install oh my zsh
+
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-### Install Powerlevel10k
+### Install Powerlevel10k(optional)
+
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-### install dracula theme for Powerlevel10k
+### install dracula theme for Powerlevel10k(optional)
+
 ```bash
 git clone https://github.com/dracula/powerlevel10k.git
 ```
+
 **copy** ***powerlevel10k/files/.p10k.zsh*** to ***~/.p10k.zsh***
 
 ### Install fzf
+
 ```bash
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 ```
 
 ### Configure Oh My Zsh
+
 ```bash
 # Theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -61,26 +74,31 @@ source $ZSH/oh-my-zsh.sh
 ```
 
 ### Zsh Syntax Highlighting
+
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
 ### Zsh Autosuggestions
+
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
 ### Zsh Completions
+
 ```bash
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
 ```
 
 ### fzf-tab
+
 ```bash
 git clone https://github.com/Aloxaf/fzf-tab.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 ```
 
 ### Add Customization to .zshrc
+
 ```bash
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -94,6 +112,7 @@ setopt hist_reduce_blanks  # Remove extra blanks from commands
 ```
 
 ### fzf-tab options
+
 ```bash
 # Enable fzf-tab
 source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab/fzf-tab.plugin.zsh
@@ -132,13 +151,21 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup # only if you have tmux
 # --------------------
 alias tmuxlayout="tmux split-window -h -l 35%; tmux split-window -v -l 50%;"
 ```
+
 ### install alacritty
+
+> alacritty is my prfer terminal environemnt all other new age terminal will work too with this setup, alacritty is based on Rust and blazingly fast
+
 ```bash
-sudo apt install alacritty
+sudo apt install alacritty # For Debian/Ubuntu
+sudo dnf install alacritty # for Fedora
+brew install alacritty # for Mac OS
 ```
+
 **copy** alacritty.toml file provided here into ***.config/alacritty/alacritty.toml***
 
-### install dracula theme for alacritty
+### install dracula theme for alacritty(optional)
+
 ```bash
 https://github.com/dracula/alacritty/archive/master.zip
 ```
@@ -146,26 +173,40 @@ https://github.com/dracula/alacritty/archive/master.zip
 **copy** dracula.toml file to ***.config/alacritty/***
 
 ### install tmux
+
 ```bash
-sudo apt install tmux
+sudo apt install tmux # For Debian/Ubuntu
+sudo dnf intall tmux # For Fedora
+brew install tmux # For Mac OS
 ```
+
 **copy** tmux.conf file provided here into ***.config/tmux/tmux.conf***
 
 ### tpm(tmux package manager)
+
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 then do **ctrl + b (tmux prefix)** + **I(capital I)**
 
-
 ### install neovim
-***install neovim from snap store for better versioning
+
+```bash
+sudo apt install neovim # For Debian/Ubuntu !important: in ubuntu use snap store for installation for better versioning
+sudo dnf install neovim # For Fedora !important: in fedora use flatpack for installation for better versioning
+brew install neovim # For Mac OS
+```
 
 ### install LazyVim
+
+> LazyVim is bootstraping package install package manager and some necessary packages and configurations
+you can read about it in [lazyvim website](https://www.lazyvim.org)
+
 pre requisite
+
 - fzf: fzf (v0.25.1 or greater)
 - live grep: ripgrep
-- find files: fd 
+- find files: fd
 
 ```bash
 git clone https://github.com/LazyVim/starter ~/.config/nvim
@@ -173,5 +214,13 @@ rm -rf ~/.config/nvim/.git
 ```
 **copy** lua folder to ***.config/nvim***
 
-after LazyVim you can add your packages and customize options so easily 
+after LazyVim you can add your packages and customize options so easily
 ***list of great packages to install and one i usually have with brief description is in the nvim-extra-detailed file***
+
+### setup noevim keybinding for vscode
+
+> if you prefer to have vim keybinding in your vscode for training or having advantage of faster workflow
+
+Install vim extension by vscodevim for your vscode
+
+Add vim extension extra settings provided in *neovim-lazyvim-vscode-settings.txt* to your vscode settings file
