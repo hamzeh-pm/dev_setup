@@ -374,7 +374,7 @@ TN_BG_LIGHT=#24283b
   #####################################[ vcs: git status ]######################################
   # Version control background colors.
   typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=$TN_WHITE
-  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=$TN_BG_DARK
+  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=$TN_GREEN
 
   typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=$TN_WHITE
   typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=$TN_RED
