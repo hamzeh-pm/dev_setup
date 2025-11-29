@@ -22,7 +22,7 @@ chsh -s $(which zsh)
 ### download and copy proper font
 
 - Fira Code Nerd Font (my suggestion)
-[download from here](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.nerdfonts.com/font-downloads&ved=2ahUKEwi7xfLt0sSKAxWY0gIHHTzJMisQFnoECBcQAQ&usg=AOvVaw3CWfI_QlL7GqdvUx4iob-O)
+  [download from here](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.nerdfonts.com/font-downloads&ved=2ahUKEwi7xfLt0sSKAxWY0gIHHTzJMisQFnoECBcQAQ&usg=AOvVaw3CWfI_QlL7GqdvUx4iob-O)
 
 ### install oh my zsh
 
@@ -42,7 +42,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 git clone https://github.com/dracula/powerlevel10k.git
 ```
 
-**copy** ***powerlevel10k/files/.p10k.zsh*** to ***~/.p10k.zsh***
+**copy** **_powerlevel10k/files/.p10k.zsh_** to **_~/.p10k.zsh_**
 
 ### Install fzf
 
@@ -72,6 +72,8 @@ plugins=(
 # Initialize Oh My Zsh
 source $ZSH/oh-my-zsh.sh
 ```
+
+[complete config example exist here](zshrc-example)
 
 ### Zsh Syntax Highlighting
 
@@ -140,10 +142,10 @@ zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':fzf-tab:*' popup-min-size 120  
+zstyle ':fzf-tab:*' popup-min-size 120
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup # only if you have tmux
 
-# tmux command to get basic split window like this 
+# tmux command to get basic split window like this
 # --------------------
 # |            |     |
 # |            |-----|
@@ -162,7 +164,7 @@ sudo dnf install alacritty # for Fedora
 brew install alacritty # for Mac OS
 ```
 
-**copy** alacritty.toml file provided here into ***.config/alacritty/alacritty.toml***
+**copy** alacritty.toml file provided here into **_.config/alacritty/alacritty.toml_**
 
 ### install dracula theme for alacritty(optional)
 
@@ -170,7 +172,7 @@ brew install alacritty # for Mac OS
 https://github.com/dracula/alacritty/archive/master.zip
 ```
 
-**copy** dracula.toml file to ***.config/alacritty/***
+**copy** dracula.toml file to **_.config/alacritty/_**
 
 ### install tmux
 
@@ -180,13 +182,14 @@ sudo dnf intall tmux # For Fedora
 brew install tmux # For Mac OS
 ```
 
-**copy** tmux.conf file provided here into ***.config/tmux/tmux.conf***
+**copy** tmux.conf file provided here into **_.config/tmux/tmux.conf_**
 
 ### tpm(tmux package manager)
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
+
 then do **ctrl + b (tmux prefix)** + **I(capital I)**
 
 ### install neovim
@@ -200,7 +203,7 @@ brew install neovim # For Mac OS
 ### install LazyVim
 
 > LazyVim is bootstraping package install package manager and some necessary packages and configurations
-you can read about it in [lazyvim website](https://www.lazyvim.org)
+> you can read about it in [lazyvim website](https://www.lazyvim.org)
 
 pre requisite
 
@@ -212,10 +215,11 @@ pre requisite
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 rm -rf ~/.config/nvim/.git
 ```
-**copy** lua folder to ***.config/nvim***
+
+**copy** lua folder to **_.config/nvim_**
 
 after LazyVim you can add your packages and customize options so easily
-***list of great packages to install and one i usually have with brief description is in the nvim-extra-detailed file***
+**_list of great packages to install and one i usually have with brief description is in the nvim-extra-detailed file_**
 
 ### setup noevim keybinding for vscode
 
@@ -223,4 +227,4 @@ after LazyVim you can add your packages and customize options so easily
 
 Install vim extension by vscodevim for your vscode
 
-Add vim extension extra settings provided in *neovim-lazyvim-vscode-settings.txt* to your vscode settings file
+Add vim extension extra settings provided in _neovim-lazyvim-vscode-settings.txt_ to your vscode settings file

@@ -170,45 +170,34 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # aliases
 
-# 1️⃣ Two stacked on left, full horizontal on the right (log view)
-alias tlay-focus='tmux rename-window focus; tmux split-window -h -l 35%; tmux select-pane -L; tmux split-window -v -l 70%; tmux select-pane -L'
+# Two stacked on left, full horizontal on the right (log view)
+alias tlay-focus='tmux rename-window focus; tmux split-window -h -l 35%; tmux select-pane -L; tmux split-window -v -l 30%; tmux select-pane -L'
 
-# 2️⃣ 2x2 equal grid
+# 2x2 equal grid
 alias tlay-grid='tmux rename-window grid; tmux split-window -h; tmux split-window -v; tmux select-pane -L; tmux split-window -v'
 
-# 3️⃣ Top wide, two bottom panes
+# Top wide, two bottom panes
 alias tlay-wide='tmux rename-window wide; tmux split-window -v -l 50%; tmux split-window -h'
 
-# 4️⃣ Simple vertical split 55/45
+# Simple vertical split 55/45
 alias tlay-v55='tmux rename-window 55/45; tmux split-window -h -l 45%'
 
-# 5️⃣ Full horizontal on the left (claude view), two stack on the right (code view 7/3)
-alias tlay-claude='
+# Full horizontal on the left (claue view), two stack on the right (code view 7/3), 2 windows for services (docker services)
+alias tlay-mobile='
   tmux rename-window claude.ai \; \
-    split-window -h -l 60% \; \
-    select-pane -R \; \
-    split-window -v -t ! -l 30% \; \
-    select-pane -L
-'
-
-# 6️⃣ Full horizontal on the left (claue view), two stack on the right (code view 7/3), 2 windows for services (docker services)
-alias tlay-claude+ss-services='
-  tmux rename-window claude.ai \; \
-    split-window -h -l 60% \; \
-    select-pane -R \; \
-    split-window -v -t ! -l 30% \; \
-    select-pane -L \; \
-    new-window -n service-1 \; \
-    new-window -n service-2 \; \
+    new-window -n nvim \; \
+    new-window -n testing \; \
+    new-window -n services \; \
+    split-window -h -l 50% \; \
     select-window -t 1
 '
 
-# 6️⃣ Full horizontal on the left (claue view), two stack on the right (code view 7/3), 1 split vertical stack window for services (docker services)
-alias tlay-claude+bs-services='
-  tmux rename-window claude.ai \; \
-    split-window -h -l 60% \; \
-    select-pane -R \; \
-    split-window -v -t ! -l 30% \; \
+# Full horizontal on the left (claue view), two stack on the right (code view 7/3), 1 split vertical stack window for services (docker services)
+alias tlay-desk='
+  tmux rename-window code \; \
+    split-window -h -l 35% \; \
+    select-pane -L \; \
+    split-window -v -l 30% \; \
     select-pane -L \; \
     new-window -n services \; \
     split-window -h -l 50% \; \
@@ -221,5 +210,6 @@ alias tlay-reset='
      kill-window -a
 '
 
-#Ativate default virtual environment
+# Ativate default virtual environment
 alias vact="source .venv/bin/activate"
+

@@ -1,72 +1,36 @@
-Enabled Plugins: (12)
-● ai.copilot - GitHub Copilot AI assistant that provides intelligent code completion based on your context.
-● ai.copilot-chat - Allows interactive chat-based AI assistance for explaining, refactoring, and generating code.
-● coding.blink - Highlights cursor movements, making it easier to track your position in large code files.
-● coding.mini-comment - Lightweight commenting tool that provides simple, fast, and configurable comment toggling.
-● coding.mini-surround - Minimalistic plugin for handling surrounding characters like quotes, brackets, and tags.
-● editor.snacks_explorer - File explorer designed for easy navigation and better organization of project files.
-● lsp.none-ls - Integrates with external tools like Ruff, ESLint, and Black to provide LSP-based diagnostics and formatting.
-● ui.mini-animate - Adds smooth animations for UI interactions like scrolling, cursor movement, and window transitions.
-● ui.mini-indentscope - Visualizes indentation levels dynamically, helping with code structure awareness.
-● util.dot - Plugin to manage and sync dotfiles efficiently within Neovim.
-● util.gitui - Provides a Git user interface inside Neovim for staging, committing, and browsing repositories.
 
-Enabled Languages: (7)
-● lang.docker - Adds support for Dockerfile syntax, validation, and LSP-based autocompletion.
-● lang.java - Java language integration with LSP, debugging, and refactoring features.
-● lang.json - Enhances JSON files with syntax highlighting, linting, and schema validation.
-● lang.markdown - Provides Markdown syntax support, live previews, and LSP integration.
-● lang.python - Python language server support with intelligent code navigation, linting, and autocompletion.
-● lang.toml - Syntax highlighting and validation support for TOML configuration files.
-● lang.yaml - YAML file support with schema-based validation and LSP capabilities.
 
-Recommended Plugins: (6)
-○ coding.yanky - Enhances the clipboard history, allowing easy access to previous yanked text.
-○ editor.dial - Enables intuitive incrementing and decrementing of numbers, dates, and other values.
-○ editor.inc-rename - Allows renaming variables and functions incrementally with a real-time preview.
-○ editor.snacks_picker - Provides an efficient picker tool for selecting files, buffers, and other Neovim objects.
-○ test.core - A framework for running unit tests and managing test results within Neovim.
-○ util.mini-hipatterns - Dynamically highlights patterns and keywords in your code to improve readability.
+  LazyVim Extras
 
-Plugins: (40)
-○ ai.codeium - AI-powered autocomplete tool offering contextual code suggestions similar to Copilot.
-○ ai.supermaven - AI-driven code analysis and refactoring assistant.
-○ ai.tabnine - AI-based code completion trained on diverse programming languages and patterns.
-○ coding.luasnip - Lua-based snippet manager for Neovim, supporting extensive snippet collections.
-○ coding.mini-snippets - Lightweight snippet plugin focused on quick insertion of reusable code patterns.
-○ coding.neogen - Automates documentation generation for functions, classes, and modules.
-○ coding.nvim-cmp - Core autocompletion framework that integrates with LSP, snippets, and other sources.
-○ dap.core - Debug Adapter Protocol (DAP) support for debugging various programming languages.
-○ dap.nlua - DAP extension for debugging Lua scripts within Neovim.
-○ editor.aerial - Provides a structured code outline for navigating functions, classes, and symbols.
-○ editor.fzf - Fuzzy finder for quickly searching files, buffers, and commands in a performant way.
-○ editor.harpoon2 - Improves navigation by allowing users to bookmark and switch between files quickly.
-○ editor.illuminate - Highlights instances of the current word under the cursor for better code comprehension.
-○ editor.leap - Enhances movement within files, allowing quick jumps to characters, words, and lines.
-○ editor.mini-diff - Lightweight diff viewer for quickly comparing file changes.
-○ editor.mini-files - Minimalist file manager plugin for browsing and opening files within Neovim.
-○ editor.mini-move - Enables moving text lines and blocks easily while maintaining formatting.
-○ editor.navic - Displays breadcrumbs for the current function or class in the status line.
-○ editor.neo-tree - Feature-rich file explorer with a clean UI and smooth navigation.
-○ editor.outline - Provides an overview of code symbols, functions, and classes in the current file.
-○ editor.overseer - Task and job runner for executing background commands and automation scripts.
-○ editor.refactoring - Collection of tools for renaming, extracting functions, and restructuring code.
-○ editor.telescope - Highly configurable fuzzy finder for searching files, buffers, and symbols.
-○ formatting.biome - Code formatter for JavaScript/TypeScript with linting and auto-fix capabilities.
-○ formatting.black - Auto-formatting tool for Python, ensuring code consistency.
-○ formatting.prettier - Formatter for JavaScript, HTML, CSS, and other frontend-related files.
-○ linting.eslint - ESLint integration for real-time JavaScript and TypeScript linting.
-○ lsp.neoconf - Configuration manager for Neovim’s LSP settings, simplifying LSP setup.
-○ ui.alpha - Customizable Neovim startup dashboard with shortcuts and project information.
-○ ui.dashboard-nvim - Alternative to Alpha with widgets for recent files, projects, and sessions.
-○ ui.edgy - Floating window and sidebar manager for better UI layout handling.
-○ ui.indent-blankline - Displays indentation guides to visually align blocks of code.
-○ ui.mini-starter - Lightweight startup dashboard for quickly opening projects and files.
-○ ui.smear-cursor - Creates a cursor trail effect for smoother motion visibility.
-○ ui.treesitter-context - Displays the current function or class at the top of the window while scrolling.
-○ util.chezmoi - Dotfile manager that helps maintain configuration files across different machines.
-○ util.octo - GitHub integration for managing issues, pull requests, and repositories inside Neovim.
-○ util.project - Tools for managing and switching between multiple projects efficiently.
-○ util.rest - REST client for sending API requests and testing endpoints directly from Neovim.
-○ util.startuptime - Utility for profiling Neovim's startup time and optimizing performance.
-○ vscode - Compatibility layer allowing Neovim to function within VS Code as an embedded editor.
+  This is a list of all enabled/disabled LazyVim extras.
+  Each extra shows the required and optional plugins it may install.
+  Enable/disable extras with the <x> key
+
+  Enabled Plugins: (14)
+    ● ai.claudecode  claudecode.nvim
+    ● coding.blink  blink.cmp  friendly-snippets  blink.compat  catppuccin
+    ● coding.mini-comment  mini.comment  nvim-ts-context-commentstring
+    ● coding.mini-surround  mini.surround
+    ● editor.mini-move  mini.move
+    ● editor.navic  nvim-navic  lualine.nvim
+    ● editor.snacks_explorer    snacks.nvim
+      Snacks File Explorer
+    ● editor.snacks_picker    nvim-lspconfig  snacks.nvim  alpha-nvim  dashboard-nvim  flash.nvim  mini.starter  todo-comments.nvim
+      Fast and modern file picker
+    ● formatting.prettier  mason.nvim  conform.nvim  none-ls.nvim
+    ● lsp.none-ls  mason.nvim  none-ls.nvim
+    ● test.core    neotest  nvim-nio  nvim-dap
+      Neotest support. Requires language specific adapters to be configured. (see lang extras)
+    ● ui.indent-blankline  indent-blankline.nvim  snacks.nvim
+    ● ui.mini-indentscope  mini.indentscope  snacks.nvim  indent-blankline.nvim
+    ● util.gitui  mason.nvim
+
+  Enabled Languages: (7)
+    ● lang.docker  mason.nvim  nvim-lspconfig  nvim-treesitter  none-ls.nvim  nvim-lint
+    ● lang.json    SchemaStore.nvim  nvim-lspconfig  nvim-treesitter
+    ● lang.markdown    markdown-preview.nvim  mason.nvim  nvim-lspconfig  render-markdown.nvim  conform.nvim  none-ls.nvim  nvim-lint
+    ● lang.python  neotest-python  nvim-dap-python  nvim-lspconfig  nvim-treesitter  venv-selector.nvim  mason-nvim-dap.nvim  neotest  nvim-cmp  nvim-dap
+    ● lang.sql  mason.nvim  vim-dadbod  vim-dadbod-completion  vim-dadbod-ui  blink.cmp  conform.nvim  edgy.nvim  nvim-lint  nvim-treesitter
+    ● lang.toml    nvim-lspconfig
+    ● lang.yaml  SchemaStore.nvim  nvim-lspconfig
+
