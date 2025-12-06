@@ -4,7 +4,7 @@ A comprehensive guide to setting up a modern terminal environment with Alacritty
 
 ## What's Included
 
-- **Terminal**: Alacritty (GPU-accelerated)
+- **Terminal**: [Alacritty](https://alacritty.org/) (GPU-accelerated) or [WezTerm](https://wezfurlong.org/wezterm/) (feature-rich)
 - **Shell**: Zsh with Oh My Zsh, Powerlevel10k, and plugins
 - **Multiplexer**: tmux with useful plugins and layouts
 - **Editor**: Neovim with LazyVim
@@ -15,6 +15,7 @@ A comprehensive guide to setting up a modern terminal environment with Alacritty
 - [Install Zsh](#install-zsh)
 - [Oh My Zsh & Plugins](#install-oh-my-zsh)
 - [Alacritty](#install-alacritty)
+- [WezTerm](#install-wezterm)
 - [tmux](#install-tmux)
 - [Neovim & LazyVim](#install-neovim)
 - [Git Configuration](#git-configuration)
@@ -203,6 +204,31 @@ https://github.com/dracula/alacritty/archive/master.zip
 ```
 
 **copy** dracula.toml file to **_.config/alacritty/_**
+
+### Install WezTerm
+
+> WezTerm is a powerful, cross-platform terminal emulator with built-in multiplexing, GPU-acceleration, and extensive Lua configuration. A great alternative to Alacritty + tmux.
+
+[Download WezTerm](https://wezfurlong.org/wezterm/installation.html)
+
+```bash
+# For macOS
+brew install --cask wezterm
+
+# For Debian/Ubuntu
+curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /etc/apt/keyrings/wezterm-fury.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+sudo apt update
+sudo apt install wezterm
+
+# For Fedora
+sudo dnf copr enable wezfurlong/wezterm-nightly
+sudo dnf install wezterm
+```
+
+**copy** `wezterm.lua` file provided here to **_~/.wezterm.lua_** or **_~/.config/wezterm/wezterm.lua_**
+
+**copy** `colors/dracula.toml` file to **_~/.config/wezterm/colors/_** for the Dracula color scheme
 
 ### install tmux
 
