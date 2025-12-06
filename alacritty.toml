@@ -46,4 +46,8 @@ foreground = "0xf8f8f2"
 
 [shell]
 program = "/bin/zsh"
-args = ["-l", "-c", "tmux new-session -A -s main; exec /bin/zsh"]
+args = [
+  "-l",
+  "-c",
+  "tmux new-session -A -s $(uuidgen | cut -c1-8); exec /bin/zsh",
+]
