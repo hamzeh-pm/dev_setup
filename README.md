@@ -301,9 +301,46 @@ Also configures VSCode as the default diff and merge tool.
 
 If you prefer Tokyo Night over Dracula, alternative config files are provided in the `tokyo-night-theme/` folder:
 
-- `tokyo-night-theme/alacritty.toml` - Alacritty color scheme
+- `tokyo-night-theme/wezterm.lua` - WezTerm config with Tokyo Night colors
+- `tokyo-night-theme/alacritty.toml` - Alacritty config
+- `tokyo-night-theme/tokyo-night.toml` - Alacritty Tokyo Night color scheme
 - `tokyo-night-theme/tmux.conf` - tmux theme config
 - `tokyo-night-theme/.p10k.zsh` - Powerlevel10k theme
+
+#### Alacritty Setup
+
+**copy** `tokyo-night-theme/tokyo-night.toml` to **_~/.config/alacritty/tokyo-night.toml_**
+
+**copy** `tokyo-night-theme/alacritty.toml` to **_~/.config/alacritty/alacritty.toml_**
+
+#### Neovim Setup
+
+Tokyo Night is the default colorscheme in LazyVim. The config at `lua/plugins/colorscheme.lua` is already set up with the "night" style.
+
+To change the flavor/style, edit `lua/plugins/colorscheme.lua` and change the `style` option:
+
+```lua
+return {
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = {
+      style = "night",  -- Options: "night", "storm", "moon", "day"
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+    },
+  }
+}
+```
+
+Available styles:
+- `night` - Dark variant (current default)
+- `storm` - Darker variant
+- `moon` - Default Tokyo Night style
+- `day` - Light theme variant
 
 ### tmux Keybindings
 
