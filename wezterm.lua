@@ -109,9 +109,28 @@ config.window_frame = {
 	font_size = 14.0,
 }
 
+-- Default status bar colors (used if no theme loaded)
+local default_status_colors = {
+	left_bg = "#a6da95",
+	left_fg = "#1e2030",
+	right_bg = "#363a4f",
+	right_fg = "#cad3f5",
+	right_accent_bg = "#8aadf4",
+	right_accent_fg = "#1e2030",
+}
+
+-- Get status bar colors from theme or defaults
+local function get_status_colors()
+	if colors and colors.status_colors then
+		return colors.status_colors()
+	end
+	return default_status_colors
+end
+
 -- Status bar with system info (battery, time)
 wezterm.on("update-status", function(window, pane)
 	local date = wezterm.strftime("%H:%M:%S")
+	local sc = get_status_colors()
 
 	-- Get battery info (if available)
 	local battery = ""
@@ -129,18 +148,25 @@ wezterm.on("update-status", function(window, pane)
 		else
 			icon = "󰁺"
 		end
-		battery = string.format("%s %.0f%% ", icon, charge)
+		battery = string.format("%s %.0f%%", icon, charge)
 	end
 
 	-- Left status: workspace name
 	local workspace = window:active_workspace()
 	window:set_left_status(wezterm.format({
+		{ Background = { Color = sc.left_bg } },
+		{ Foreground = { Color = sc.left_fg } },
 		{ Text = "  " .. workspace .. " " },
 	}))
 
-	-- Right status: battery + time
+	-- Right status: battery (accent color) + time (regular color)
 	window:set_right_status(wezterm.format({
-		{ Text = " " .. battery .. " " .. date .. " " },
+		{ Background = { Color = sc.right_accent_bg } },
+		{ Foreground = { Color = sc.right_accent_fg } },
+		{ Text = " " .. battery .. " " },
+		{ Background = { Color = sc.right_bg } },
+		{ Foreground = { Color = sc.right_fg } },
+		{ Text = " " .. date .. " " },
 	}))
 end)
 
