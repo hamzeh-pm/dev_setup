@@ -1,9 +1,7 @@
 -- WezTerm Configuration (theme-free base)
 --
 -- To apply a theme, copy colors.lua from a theme directory to ~/.config/wezterm/
--- Then add near the top:
---   local colors = require("colors")
---   config.color_scheme = colors.scheme
+-- The color scheme, tabs, and status bar will automatically adapt.
 
 local wezterm = require("wezterm")
 local act = wezterm.action
@@ -15,6 +13,11 @@ local config = wezterm.config_builder()
 local colors_ok, colors = pcall(require, "colors")
 if not colors_ok then
 	colors = nil
+end
+
+-- Auto-apply color scheme from theme if available
+if colors_ok and colors.scheme then
+	config.color_scheme = colors.scheme
 end
 
 -- Default accent palette (used if no theme loaded)
@@ -40,6 +43,18 @@ local function get_accent_for_tab(tab_index)
 	-- Use tab_index to pick a key (consistent per tab, but unordered)
 	local idx = (tab_index % #keys) + 1
 	return accents[keys[idx]]
+end
+
+-- Helper function to adjust brightness of a hex color
+local function adjust_brightness(color, amount)
+	local r, g, b = color:match("#(%x%x)(%x%x)(%x%x)")
+	r, g, b = tonumber(r, 16), tonumber(g, 16), tonumber(b, 16)
+
+	local function clamp(val)
+		return math.min(255, math.max(0, val))
+	end
+
+	return string.format("#%02x%02x%02x", clamp(r + amount), clamp(g + amount), clamp(b + amount))
 end
 
 -- ============================================================================
@@ -113,10 +128,10 @@ config.window_frame = {
 local default_status_colors = {
 	left_bg = "#a6da95",
 	left_fg = "#1e2030",
-	right_bg = "#363a4f",
-	right_fg = "#cad3f5",
-	right_accent_bg = "#8aadf4",
-	right_accent_fg = "#1e2030",
+	battery_bg = "#a6da95",
+	battery_fg = "#1e2030",
+	date_bg = "#8aadf4",
+	date_fg = "#1e2030",
 }
 
 -- Get status bar colors from theme or defaults
@@ -159,13 +174,13 @@ wezterm.on("update-status", function(window, pane)
 		{ Text = "  " .. workspace .. " " },
 	}))
 
-	-- Right status: battery (accent color) + time (regular color)
+	-- Right status: battery + date (both with colored backgrounds)
 	window:set_right_status(wezterm.format({
-		{ Background = { Color = sc.right_accent_bg } },
-		{ Foreground = { Color = sc.right_accent_fg } },
+		{ Background = { Color = sc.battery_bg } },
+		{ Foreground = { Color = sc.battery_fg } },
 		{ Text = " " .. battery .. " " },
-		{ Background = { Color = sc.right_bg } },
-		{ Foreground = { Color = sc.right_fg } },
+		{ Background = { Color = sc.date_bg } },
+		{ Foreground = { Color = sc.date_fg } },
 		{ Text = " " .. date .. " " },
 	}))
 end)
@@ -201,17 +216,13 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
 			{ Foreground = { Color = bg } },
 			{ Text = tab_text },
 		}
-	elseif hover then
-		return {
-			{ Background = { Color = bg } },
-			{ Foreground = { Color = accent } },
-			{ Text = tab_text },
-		}
 	else
+		-- Use dimmed colors for inactive tabs (dimmed version of active tab colors)
+		local dimmed_accent = adjust_brightness(accent, -60)
+		local dimmed_fg = adjust_brightness(bg, -60)
 		return {
-			{ Background = { Color = bg } },
-			{ Foreground = { Color = fg } },
-			{ Attribute = { Intensity = "Half" } },
+			{ Background = { Color = dimmed_accent } },
+			{ Foreground = { Color = dimmed_fg } },
 			{ Text = tab_text },
 		}
 	end
