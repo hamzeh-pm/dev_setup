@@ -214,6 +214,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
 		return {
 			{ Background = { Color = accent } },
 			{ Foreground = { Color = bg } },
+			{ Attribute = { Intensity = "Bold" } },
 			{ Text = tab_text },
 		}
 	else
@@ -223,6 +224,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
 		return {
 			{ Background = { Color = dimmed_accent } },
 			{ Foreground = { Color = dimmed_fg } },
+			{ Attribute = { Intensity = "Normal" } },
 			{ Text = tab_text },
 		}
 	end
