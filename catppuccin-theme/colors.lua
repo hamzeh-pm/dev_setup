@@ -71,14 +71,4 @@ function M.status_colors()
 	}
 end
 
--- Helper to adjust brightness
-function M.adjust_brightness(color, amount)
-	local r, g, b = color:match("#(%x%x)(%x%x)(%x%x)")
-	r, g, b = tonumber(r, 16), tonumber(g, 16), tonumber(b, 16)
-	local function clamp(val)
-		return math.min(255, math.max(0, val))
-	end
-	return string.format("#%02x%02x%02x", clamp(r + amount), clamp(g + amount), clamp(b + amount))
-end
-
 return M
