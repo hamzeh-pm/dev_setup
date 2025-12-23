@@ -11,6 +11,37 @@ local mux = wezterm.mux
 
 local config = wezterm.config_builder()
 
+-- Try to load theme colors (optional)
+local colors_ok, colors = pcall(require, "colors")
+if not colors_ok then
+	colors = nil
+end
+
+-- Default accent palette (used if no theme loaded)
+local default_accents = {
+	peach = "#f5a97f",
+	green = "#a6da95",
+	blue = "#8aadf4",
+	mauve = "#c6a0f6",
+	pink = "#f5bde6",
+	teal = "#8bd5ca",
+	yellow = "#eed49f",
+	red = "#ed8796",
+}
+
+-- Get accent color by tab index (picks from dict keys pseudo-randomly)
+local function get_accent_for_tab(tab_index)
+	local accents = (colors and colors.accents) or default_accents
+	-- Collect keys into array
+	local keys = {}
+	for k, _ in pairs(accents) do
+		table.insert(keys, k)
+	end
+	-- Use tab_index to pick a key (consistent per tab, but unordered)
+	local idx = (tab_index % #keys) + 1
+	return accents[keys[idx]]
+end
+
 -- ============================================================================
 -- APPEARANCE
 -- ============================================================================
@@ -113,17 +144,51 @@ wezterm.on("update-status", function(window, pane)
 	}))
 end)
 
--- Tab title format
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local title = tab.tab_title .. "-" .. get_current_working_dir(tab)
+-- Tab title format with accent colors
+wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
+	local title = tab.tab_title
+	if not title or #title == 0 then
+		title = get_current_working_dir(tab)
+	end
 	if not title or #title == 0 then
 		title = tab.active_pane.title
 	end
 	-- Truncate if needed
-	if #title > max_width - 4 then
-		title = string.sub(title, 1, max_width - 4) .. "…"
+	if #title > max_width - 6 then
+		title = string.sub(title, 1, max_width - 6) .. "…"
 	end
-	return string.format(" %d: %s ", tab.tab_index + 1, title)
+
+	local accent = get_accent_for_tab(tab.tab_index)
+	local tab_text = string.format(" %d: %s ", tab.tab_index + 1, title)
+
+	-- Get background color from palette or use defaults
+	local bg = "#1e2030"
+	local fg = "#cad3f5"
+	if colors and colors.palette then
+		bg = colors.palette.mantle or colors.palette.bg_dark or bg
+		fg = colors.palette.text or colors.palette.fg or fg
+	end
+
+	if tab.is_active then
+		return {
+			{ Background = { Color = accent } },
+			{ Foreground = { Color = bg } },
+			{ Text = tab_text },
+		}
+	elseif hover then
+		return {
+			{ Background = { Color = bg } },
+			{ Foreground = { Color = accent } },
+			{ Text = tab_text },
+		}
+	else
+		return {
+			{ Background = { Color = bg } },
+			{ Foreground = { Color = fg } },
+			{ Attribute = { Intensity = "Half" } },
+			{ Text = tab_text },
+		}
+	end
 end)
 
 -- ============================================================================

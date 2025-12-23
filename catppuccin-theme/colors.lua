@@ -41,22 +41,22 @@ M.palette = {
 	accent = "#a6da95", -- green
 }
 
--- All catppuccin accent colors for tab cycling
+-- All catppuccin accent colors for tabs (dict - order is random)
 M.accents = {
-	M.palette.rosewater,
-	M.palette.flamingo,
-	M.palette.pink,
-	M.palette.mauve,
-	M.palette.red,
-	M.palette.maroon,
-	M.palette.peach,
-	M.palette.yellow,
-	M.palette.green,
-	M.palette.teal,
-	M.palette.sky,
-	M.palette.sapphire,
-	M.palette.blue,
-	M.palette.lavender,
+	rosewater = M.palette.rosewater,
+	flamingo = M.palette.flamingo,
+	pink = M.palette.pink,
+	mauve = M.palette.mauve,
+	red = M.palette.red,
+	maroon = M.palette.maroon,
+	peach = M.palette.peach,
+	yellow = M.palette.yellow,
+	green = M.palette.green,
+	teal = M.palette.teal,
+	sky = M.palette.sky,
+	sapphire = M.palette.sapphire,
+	blue = M.palette.blue,
+	lavender = M.palette.lavender,
 }
 
 -- Status bar color formatting helper

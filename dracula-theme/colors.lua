@@ -26,6 +26,17 @@ M.palette = {
 	accent = "#bd93f9",
 }
 
+-- Accent colors for tabs (dict - order is random)
+M.accents = {
+	red = M.palette.red,
+	orange = M.palette.orange,
+	yellow = M.palette.yellow,
+	green = M.palette.green,
+	cyan = M.palette.cyan,
+	purple = M.palette.purple,
+	pink = M.palette.pink,
+}
+
 -- Status bar color formatting helper
 function M.status_colors()
 	return {
