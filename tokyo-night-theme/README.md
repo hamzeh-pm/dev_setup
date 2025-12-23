@@ -46,7 +46,7 @@ A dark, elegant theme inspired by the Tokyo city lights at night. [github.com/fo
 
 ### Neovim
 
-Tokyo Night is included in the base setup. The colorscheme is configured in `lua/plugins/colorscheme.lua`.
+Copy `colorscheme.lua` to `~/.config/nvim/lua/plugins/colorscheme.lua`
 
 Available styles (edit `style` option):
 - `night` - Dark variant (default)

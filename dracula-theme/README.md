@@ -46,15 +46,7 @@ Dark theme with vibrant purple accents. [draculatheme.com](https://draculatheme.
 
 ### Neovim
 
-Install the dracula colorscheme plugin. Add to your plugins:
-```lua
-{ "Mofiqul/dracula.nvim" }
-```
-
-Set as colorscheme:
-```lua
-vim.cmd.colorscheme("dracula")
-```
+Copy `colorscheme.lua` to `~/.config/nvim/lua/plugins/colorscheme.lua`
 
 ### Powerlevel10k (Zsh)
 

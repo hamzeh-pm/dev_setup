@@ -8,7 +8,7 @@ A comprehensive guide to setting up a modern terminal environment with Alacritty
 - **Shell**: Zsh with Oh My Zsh, Powerlevel10k, and plugins
 - **Multiplexer**: tmux with useful plugins and layouts
 - **Editor**: Neovim with LazyVim
-- **Themes**: Separate theme directories (Dracula, Tokyo Night)
+- **Themes**: Separate theme directories (Catppuccin, Dracula, Tokyo Night)
 
 ## Repository Structure
 
@@ -19,17 +19,26 @@ dev_setup/
 ├── wezterm.lua         # Base config (theme-free)
 ├── lua/                # Neovim/LazyVim config
 │
+├── catppuccin-theme/   # Catppuccin theme overlays
+│   ├── README.md
+│   ├── catppuccin-macchiato.toml  # Alacritty colors
+│   ├── tmux-theme.conf
+│   ├── colors.lua      # WezTerm colors
+│   └── colorscheme.lua # Neovim colorscheme
+│
 ├── dracula-theme/      # Dracula theme overlays
 │   ├── README.md
-│   ├── dracula.toml    # Alacritty colors
-│   ├── tmux-theme.conf # tmux theme settings
-│   └── colors.lua      # WezTerm colors
+│   ├── dracula.toml
+│   ├── tmux-theme.conf
+│   ├── colors.lua
+│   └── colorscheme.lua
 │
 └── tokyo-night-theme/  # Tokyo Night theme overlays
     ├── README.md
     ├── tokyo-night.toml
     ├── tmux-theme.conf
     ├── colors.lua
+    ├── colorscheme.lua
     └── .p10k.zsh       # Powerlevel10k theme
 ```
 
@@ -76,8 +85,10 @@ chsh -s $(which zsh)
 
 ### Download and install a Nerd Font
 
-- Fira Code Nerd Font (recommended)
-  [Download from Nerd Fonts](https://www.nerdfonts.com/font-downloads)
+- JetBrains Mono Nerd Font (recommended)
+- Fira Code Nerd Font (alternative)
+
+[Download from Nerd Fonts](https://www.nerdfonts.com/font-downloads)
 
 ### install oh my zsh
 
@@ -316,12 +327,14 @@ Also configures VSCode as the default diff and merge tool.
 
 Theme files are organized in separate directories:
 
+- **`catppuccin-theme/`** - Soothing pastel theme (Macchiato flavour)
 - **`dracula-theme/`** - Dark theme with purple accents
 - **`tokyo-night-theme/`** - Dark theme inspired by Tokyo city lights
 
 Each theme directory contains:
 - Color palette files for Alacritty and WezTerm
 - tmux theme configuration
+- Neovim colorscheme configuration
 - README with installation instructions
 
 See each theme's README for detailed setup instructions.
