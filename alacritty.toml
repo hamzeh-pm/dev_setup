@@ -1,7 +1,13 @@
+# Alacritty Configuration (theme-free base)
+#
+# To apply a theme, add an import line below:
+#   import = ["~/.config/alacritty/dracula.toml"]
+#   import = ["~/.config/alacritty/tokyo-night.toml"]
+#
+# Theme files are in: dracula-theme/ and tokyo-night-theme/
+
 [env]
 TERM = "xterm-256color"
-
-import = "~/.config/alacritty/dracula.toml"
 
 [window]
 dimensions.columns = 90
@@ -37,12 +43,6 @@ style = "Italic"
 [font.offset]
 x = 0
 y = 0
-
-
-[colors]
-[colors.primary]
-background = "0x282c34"
-foreground = "0xf8f8f2"
 
 [shell]
 program = "/bin/zsh"

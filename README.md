@@ -8,7 +8,32 @@ A comprehensive guide to setting up a modern terminal environment with Alacritty
 - **Shell**: Zsh with Oh My Zsh, Powerlevel10k, and plugins
 - **Multiplexer**: tmux with useful plugins and layouts
 - **Editor**: Neovim with LazyVim
-- **Themes**: Dracula (default) or Tokyo Night (alternative)
+- **Themes**: Separate theme directories (Dracula, Tokyo Night)
+
+## Repository Structure
+
+```
+dev_setup/
+├── alacritty.toml      # Base config (theme-free)
+├── tmux.conf           # Base config (theme-free)
+├── wezterm.lua         # Base config (theme-free)
+├── lua/                # Neovim/LazyVim config
+│
+├── dracula-theme/      # Dracula theme overlays
+│   ├── README.md
+│   ├── dracula.toml    # Alacritty colors
+│   ├── tmux-theme.conf # tmux theme settings
+│   └── colors.lua      # WezTerm colors
+│
+└── tokyo-night-theme/  # Tokyo Night theme overlays
+    ├── README.md
+    ├── tokyo-night.toml
+    ├── tmux-theme.conf
+    ├── colors.lua
+    └── .p10k.zsh       # Powerlevel10k theme
+```
+
+The base configs are theme-free. Apply a theme by importing/sourcing the overlay files from a theme directory. See each theme's README for instructions.
 
 ## Table of Contents
 
@@ -66,13 +91,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-### install dracula theme for Powerlevel10k(optional)
-
-```bash
-git clone https://github.com/dracula/powerlevel10k.git
-```
-
-**copy** **_powerlevel10k/files/.p10k.zsh_** to **_~/.p10k.zsh_**
+For themed Powerlevel10k, see the theme directories (e.g., `tokyo-night-theme/.p10k.zsh`).
 
 ### Install fzf
 
@@ -197,13 +216,7 @@ brew install alacritty # for Mac OS
 
 **copy** alacritty.toml file provided here into **_.config/alacritty/alacritty.toml_**
 
-### install dracula theme for alacritty(optional)
-
-```bash
-https://github.com/dracula/alacritty/archive/master.zip
-```
-
-**copy** dracula.toml file to **_.config/alacritty/_**
+To apply a theme, copy the color file from a theme directory (e.g., `dracula-theme/dracula.toml`) to `~/.config/alacritty/` and add the import line to your config.
 
 ### Install WezTerm
 
@@ -228,7 +241,7 @@ sudo dnf install wezterm
 
 **copy** `wezterm.lua` file provided here to **_~/.wezterm.lua_** or **_~/.config/wezterm/wezterm.lua_**
 
-**copy** `colors/dracula.toml` file to **_~/.config/wezterm/colors/_** for the Dracula color scheme
+To apply a theme, copy `colors.lua` from a theme directory to `~/.config/wezterm/` and add the require line to your config.
 
 ### install tmux
 
@@ -239,6 +252,8 @@ brew install tmux # For macOS
 ```
 
 **copy** tmux.conf file provided here into **_.config/tmux/tmux.conf_**
+
+To apply a theme, copy `tmux-theme.conf` from a theme directory to `~/.config/tmux/themes/` and source it in your config.
 
 ### tpm(tmux package manager)
 
@@ -297,50 +312,19 @@ git hist  # Beautiful colored git log with graph
 
 Also configures VSCode as the default diff and merge tool.
 
-### Alternative Theme: Tokyo Night
+### Themes
 
-If you prefer Tokyo Night over Dracula, alternative config files are provided in the `tokyo-night-theme/` folder:
+Theme files are organized in separate directories:
 
-- `tokyo-night-theme/wezterm.lua` - WezTerm config with Tokyo Night colors
-- `tokyo-night-theme/alacritty.toml` - Alacritty config
-- `tokyo-night-theme/tokyo-night.toml` - Alacritty Tokyo Night color scheme
-- `tokyo-night-theme/tmux.conf` - tmux theme config
-- `tokyo-night-theme/.p10k.zsh` - Powerlevel10k theme
+- **`dracula-theme/`** - Dark theme with purple accents
+- **`tokyo-night-theme/`** - Dark theme inspired by Tokyo city lights
 
-#### Alacritty Setup
+Each theme directory contains:
+- Color palette files for Alacritty and WezTerm
+- tmux theme configuration
+- README with installation instructions
 
-**copy** `tokyo-night-theme/tokyo-night.toml` to **_~/.config/alacritty/tokyo-night.toml_**
-
-**copy** `tokyo-night-theme/alacritty.toml` to **_~/.config/alacritty/alacritty.toml_**
-
-#### Neovim Setup
-
-Tokyo Night is the default colorscheme in LazyVim. The config at `lua/plugins/colorscheme.lua` is already set up with the "night" style.
-
-To change the flavor/style, edit `lua/plugins/colorscheme.lua` and change the `style` option:
-
-```lua
-return {
-  {
-    "folke/tokyonight.nvim",
-    lazy = true,
-    opts = {
-      style = "night",  -- Options: "night", "storm", "moon", "day"
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
-    },
-  }
-}
-```
-
-Available styles:
-- `night` - Dark variant (current default)
-- `storm` - Darker variant
-- `moon` - Default Tokyo Night style
-- `day` - Light theme variant
+See each theme's README for detailed setup instructions.
 
 ### tmux Keybindings
 

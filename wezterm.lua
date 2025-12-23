@@ -1,6 +1,10 @@
--- WezTerm Configuration
--- Migrated from: Alacritty + tmux setup
--- Features: Dracula theme, native multiplexing, tmux-style keybindings, layout presets
+-- WezTerm Configuration (theme-free base)
+--
+-- To apply a theme, add near the top:
+--   local colors = require("colors")
+--   config.color_scheme = colors.scheme
+--
+-- Copy colors.lua from dracula-theme/ or tokyo-night-theme/ to ~/.config/wezterm/
 
 local wezterm = require("wezterm")
 local act = wezterm.action
@@ -9,7 +13,7 @@ local mux = wezterm.mux
 local config = wezterm.config_builder()
 
 -- ============================================================================
--- APPEARANCE (from alacritty.toml)
+-- APPEARANCE
 -- ============================================================================
 
 -- Window settings
@@ -21,11 +25,9 @@ config.window_padding = {
 	top = 10,
 	bottom = 10,
 }
-config.window_decorations = "TITLE | RESIZE" -- macOS: "FULL" equivalent
+config.window_decorations = "TITLE | RESIZE"
 config.window_background_opacity = 0.85
-config.macos_window_background_blur = 20 -- macOS blur (adjust for your OS)
--- For Linux with compositor:
--- config.enable_wayland = true
+config.macos_window_background_blur = 20
 
 -- Font settings (Fira Code Nerd Font)
 config.font = wezterm.font_with_fallback({
@@ -49,12 +51,7 @@ config.font_rules = {
 config.term = "xterm-256color"
 
 -- ============================================================================
--- DRACULA COLOR SCHEME (matching tmux dracula theme)
--- ============================================================================
-config.color_scheme = "Dracula (Official)"
-
--- ============================================================================
--- TAB BAR / STATUS BAR (replaces tmux status bar with dracula info)
+-- TAB BAR / STATUS BAR
 -- ============================================================================
 
 config.use_fancy_tab_bar = false
@@ -63,7 +60,7 @@ config.hide_tab_bar_if_only_one_tab = false
 config.tab_max_width = 32
 config.show_new_tab_button_in_tab_bar = true
 
--- Status bar with system info (like tmux dracula: battery, cpu, ram, time)
+-- Status bar with system info (battery, time)
 wezterm.on("update-status", function(window, pane)
 	local date = wezterm.strftime("%H:%M:%S")
 
@@ -89,21 +86,12 @@ wezterm.on("update-status", function(window, pane)
 	-- Left status: workspace name
 	local workspace = window:active_workspace()
 	window:set_left_status(wezterm.format({
-		{ Background = { Color = "#bd93f9" } },
-		{ Foreground = { Color = "#282a36" } },
-		{ Text = "  " .. workspace .. " " },
-		{ Background = { Color = "#282a36" } },
-		{ Text = " " },
+		{ Text = "  " .. workspace .. "  " },
 	}))
 
-	-- Right status: battery + time (Dracula style)
+	-- Right status: battery + time
 	window:set_right_status(wezterm.format({
-		{ Background = { Color = "#44475a" } },
-		{ Foreground = { Color = "#f8f8f2" } },
-		{ Text = " " .. battery },
-		{ Background = { Color = "#bd93f9" } },
-		{ Foreground = { Color = "#282a36" } },
-		{ Text = "  " .. date .. " " },
+		{ Text = " " .. battery .. " " .. date .. " " },
 	}))
 end)
 
@@ -121,20 +109,17 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 end)
 
 -- ============================================================================
--- MULTIPLEXING SETTINGS (replaces tmux)
+-- MULTIPLEXING SETTINGS
 -- ============================================================================
 
--- Use WezTerm's native multiplexing instead of tmux
+-- Use WezTerm's native multiplexing
 config.unix_domains = {
 	{
 		name = "unix",
 	},
 }
 
--- Pane/tab indexing starts at 1 (like tmux base-index 1)
--- Note: WezTerm doesn't have this setting, but we handle it in keybindings
-
--- Mouse support (like tmux mouse on)
+-- Mouse support
 config.mouse_bindings = {
 	-- Right click paste
 	{
@@ -151,15 +136,13 @@ config.mouse_bindings = {
 }
 
 -- ============================================================================
--- KEYBINDINGS (tmux-style with CTRL+A as leader)
+-- KEYBINDINGS (tmux-style with CTRL+B as leader)
 -- ============================================================================
 
--- Leader key: CTRL+A (common tmux prefix alternative to CTRL+B)
--- Change to CTRL+B if you prefer: { key = "b", mods = "CTRL" }
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1500 }
 
 config.keys = {
-	-- ========== PANE SPLITTING (like tmux | and -) ==========
+	-- ========== PANE SPLITTING ==========
 	{
 		key = "|",
 		mods = "LEADER|SHIFT",
@@ -302,7 +285,7 @@ config.keys = {
 		action = act.TogglePaneZoomState,
 	},
 
-	-- ========== RENAME TAB (like tmux rename-window) ==========
+	-- ========== RENAME TAB ==========
 	{
 		key = ",",
 		mods = "LEADER",
@@ -316,7 +299,7 @@ config.keys = {
 		}),
 	},
 
-	-- ========== COPY MODE (like tmux copy-mode) ==========
+	-- ========== COPY MODE ==========
 	{
 		key = "[",
 		mods = "LEADER",
@@ -330,22 +313,21 @@ config.keys = {
 		action = act.ActivateCommandPalette,
 	},
 
-	-- ========== CONFIG RELOAD (like tmux bind r) ==========
+	-- ========== CONFIG RELOAD ==========
 	{
 		key = "r",
 		mods = "LEADER",
 		action = act.ReloadConfiguration,
 	},
 
-	-- ========== WORKSPACE SWITCHING (like tmux sessions) ==========
+	-- ========== WORKSPACE SWITCHING ==========
 	{
 		key = "s",
 		mods = "LEADER",
 		action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }),
 	},
 
-	-- ========== LAYOUT PRESETS (replaces your tmux aliases) ==========
-	-- LEADER + F1-F6 for quick layouts
+	-- ========== LAYOUT PRESETS ==========
 
 	-- tlay-focus: Two stacked left, full horizontal right
 	{
@@ -354,13 +336,10 @@ config.keys = {
 		action = wezterm.action_callback(function(window, pane)
 			local tab = window:active_tab()
 			tab:set_title("focus")
-			-- Split right 35%
 			pane:split({ direction = "Right", size = 0.35 })
-			-- Go back left and split bottom 30%
 			window:perform_action(act.ActivatePaneDirection("Left"), pane)
 			local left_pane = window:active_pane()
 			left_pane:split({ direction = "Bottom", size = 0.30 })
-			-- Return to top-left
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
 		end),
 	},
@@ -372,16 +351,12 @@ config.keys = {
 		action = wezterm.action_callback(function(window, pane)
 			local tab = window:active_tab()
 			tab:set_title("grid")
-			-- Split right 50%
 			pane:split({ direction = "Right", size = 0.5 })
-			-- Split right pane bottom
 			local right_pane = window:active_pane()
 			right_pane:split({ direction = "Bottom", size = 0.5 })
-			-- Go left and split bottom
 			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
 			local left_pane = window:active_pane()
 			left_pane:split({ direction = "Bottom", size = 0.5 })
-			-- Return to top-left
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
 		end),
 	},
@@ -393,12 +368,9 @@ config.keys = {
 		action = wezterm.action_callback(function(window, pane)
 			local tab = window:active_tab()
 			tab:set_title("wide")
-			-- Split bottom 50%
 			pane:split({ direction = "Bottom", size = 0.5 })
-			-- Split bottom right
 			local bottom_pane = window:active_pane()
 			bottom_pane:split({ direction = "Right", size = 0.5 })
-			-- Return to top
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
 		end),
 	},
@@ -421,10 +393,8 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			local mux_window = window:mux_window()
-			-- Rename current tab
 			local tab1 = window:active_tab()
 			tab1:set_title("claude.ai")
-			-- Create additional tabs
 			local tab2, _, _ = mux_window:spawn_tab({})
 			tab2:set_title("nvim")
 			local tab3, _, _ = mux_window:spawn_tab({})
@@ -432,7 +402,6 @@ config.keys = {
 			local tab4, pane4, _ = mux_window:spawn_tab({})
 			tab4:set_title("services")
 			pane4:split({ direction = "Right", size = 0.5 })
-			-- Return to first tab
 			window:perform_action(act.ActivateTab(0), pane)
 		end),
 	},
@@ -445,19 +414,14 @@ config.keys = {
 			local mux_window = window:mux_window()
 			local tab1 = window:active_tab()
 			tab1:set_title("code")
-			-- Split right 35%
 			pane:split({ direction = "Right", size = 0.35 })
-			-- Go left, split bottom 30%
 			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
 			local left_pane = window:active_pane()
 			left_pane:split({ direction = "Bottom", size = 0.30 })
-			-- Return to top-left
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
-			-- Create services tab
 			local tab2, pane2, _ = mux_window:spawn_tab({})
 			tab2:set_title("services")
 			pane2:split({ direction = "Right", size = 0.5 })
-			-- Return to first tab
 			window:perform_action(act.ActivateTab(0), window:active_pane())
 		end),
 	},
@@ -469,14 +433,12 @@ config.keys = {
 		action = wezterm.action_callback(function(window, pane)
 			local tab = window:active_tab()
 			local mux_window = window:mux_window()
-			-- Close all other panes in current tab
 			for _, p in ipairs(tab:panes()) do
 				if p:pane_id() ~= pane:pane_id() then
 					p:activate()
 					window:perform_action(act.CloseCurrentPane({ confirm = false }), p)
 				end
 			end
-			-- Close all other tabs
 			local tabs = mux_window:tabs()
 			local current_tab_id = tab:tab_id()
 			for _, t in ipairs(tabs) do
@@ -485,14 +447,13 @@ config.keys = {
 					window:perform_action(act.CloseCurrentTab({ confirm = false }), window:active_pane())
 				end
 			end
-			-- Reset tab title
 			tab:set_title("")
 		end),
 	},
 }
 
 -- ============================================================================
--- QUICK LAYOUT SWITCHER (Alternative via key table)
+-- KEY TABLES
 -- ============================================================================
 
 config.key_tables = {
@@ -519,27 +480,19 @@ config.default_prog = { "/bin/zsh", "-l" }
 config.scrollback_lines = 10000
 config.enable_scroll_bar = false
 config.adjust_window_size_when_changing_font_size = false
-
--- Reduce input latency (like tmux escape-time 10)
 config.use_ime = true
-
--- Don't close window when last tab closes
 config.window_close_confirmation = "NeverPrompt"
 
 -- ============================================================================
 -- STARTUP BEHAVIOR
 -- ============================================================================
 
--- Auto-create default workspace on startup
 wezterm.on("gui-startup", function(cmd)
 	local args = cmd and cmd.args or {}
 	local tab, pane, window = mux.spawn_window({
 		workspace = "main",
 		args = args,
 	})
-	-- Optionally apply a default layout on startup
-	-- Uncomment the layout you want as default:
-	-- window:gui_window():perform_action(act.SendKey({ key = "F6", mods = "LEADER" }), pane)
 end)
 
 return config
