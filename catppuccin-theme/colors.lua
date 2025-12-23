@@ -64,10 +64,10 @@ function M.status_colors()
 	return {
 		left_bg = M.palette.green,
 		left_fg = M.palette.base,
-		right_bg = M.palette.surface0,
-		right_fg = M.palette.text,
-		right_accent_bg = M.palette.blue,
-		right_accent_fg = M.palette.base,
+		battery_bg = M.palette.green,
+		battery_fg = M.palette.base,
+		date_bg = M.palette.blue,
+		date_fg = M.palette.base,
 	}
 end
 
