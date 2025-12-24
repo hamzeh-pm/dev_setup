@@ -343,6 +343,11 @@ See each theme's README for detailed setup instructions.
 
 The default prefix key is `Ctrl+b`. Here are the essential keybindings:
 
+> **WezTerm Users:** The WezTerm multiplexer uses the same `Ctrl+b` leader key and identical keybindings as tmux. WezTerm also adds:
+> - `Alt + 1-9` - Quick tab switching (no leader needed)
+> - `Alt + n/p` - Quick next/previous tab
+> - `Leader + F1-F8` - Layout presets (see [WezTerm Layout Presets](#wezterm-layout-presets))
+
 #### Custom Keybindings (changed from defaults)
 
 | Keybinding | Action | Default |
@@ -492,3 +497,18 @@ Quick alias to activate Python virtual environment:
 ```bash
 vact  # equivalent to: source .venv/bin/activate
 ```
+
+### WezTerm Layout Presets
+
+WezTerm includes the same layout presets as the tmux aliases above, accessible via `Leader + F1-F8`:
+
+| Keybinding | Layout | Description |
+|------------|--------|-------------|
+| `Leader + F1` | focus | Main left pane with two stacked right panes |
+| `Leader + F2` | grid | 2x2 equal quadrants |
+| `Leader + F3` | wide | Wide top pane with split bottom |
+| `Leader + F4` | 55/45 | Simple vertical 55/45 split |
+| `Leader + F5` | mobile | 4 windows: ai, nvim, term, services |
+| `Leader + F6` | desk | Focus layout + services window |
+| `Leader + F7` | nvim | Code layout + services window |
+| `Leader + F8` | reset | Close all panes/tabs except current |
