@@ -185,18 +185,85 @@ wezterm.on("update-status", function(window, pane)
 	}))
 end)
 
+-- Tools that should show as tool[dir_name] in tab title
+local tool_processes = {
+	-- Editors
+	["nvim"] = "nvim",
+	["vim"] = "vim",
+	["vi"] = "vi",
+	-- AI/CLI tools
+	["claude"] = "claude",
+	-- JavaScript/Node
+	["node"] = "node",
+	["npm"] = "npm",
+	["yarn"] = "yarn",
+	["pnpm"] = "pnpm",
+	["bun"] = "bun",
+	["deno"] = "deno",
+	-- Python
+	["python"] = "py",
+	["python3"] = "py",
+	["ipython"] = "ipython",
+	-- Docker
+	["docker"] = "docker",
+	["docker-compose"] = "compose",
+	["lazydocker"] = "lazydocker",
+	-- Git
+	["git"] = "git",
+	["lazygit"] = "lazygit",
+	-- Databases
+	["psql"] = "psql",
+	["mysql"] = "mysql",
+	["redis-cli"] = "redis",
+	["mongosh"] = "mongo",
+	["sqlite3"] = "sqlite",
+	-- Kubernetes
+	["kubectl"] = "kubectl",
+	["k9s"] = "k9s",
+	["helm"] = "helm",
+	-- Infrastructure
+	["terraform"] = "tf",
+	["ansible"] = "ansible",
+	-- System monitoring
+	["htop"] = "htop",
+	["btop"] = "btop",
+	["top"] = "top",
+	-- Other languages
+	["go"] = "go",
+	["cargo"] = "cargo",
+	["ruby"] = "ruby",
+	["irb"] = "irb",
+	-- Remote
+	["ssh"] = "ssh",
+}
+
+-- Get smart tab title based on foreground process
+local function get_smart_title(tab)
+	local dir_name = get_current_working_dir(tab)
+	local process_name = tab.active_pane.foreground_process_name or ""
+	-- Extract just the binary name (remove path)
+	process_name = string.match(process_name, "[^/\\]+$") or process_name
+
+	local tool_label = tool_processes[process_name]
+	if tool_label then
+		return tool_label .. "[" .. dir_name .. "]"
+	end
+	return dir_name
+end
+
 -- Tab title format with accent colors
 wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
 	local title = tab.tab_title
 	if not title or #title == 0 then
-		title = get_current_working_dir(tab)
+		title = get_smart_title(tab)
 	end
 	if not title or #title == 0 then
 		title = tab.active_pane.title
 	end
-	-- Truncate if needed
-	if #title > max_width - 6 then
-		title = string.sub(title, 1, max_width - 6) .. "…"
+	-- Truncate if needed (use smaller margin to show more title)
+	local available = max_width - 3
+	if #title > available then
+		title = string.sub(title, 1, available) .. "…"
 	end
 
 	local accent = get_accent_for_tab(tab.tab_index)
@@ -370,8 +437,6 @@ config.keys = {
 		key = "F1",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
-			local tab = window:active_tab()
-			tab:set_title("focus")
 			pane:split({ direction = "Right", size = 0.35 })
 			window:perform_action(act.ActivatePaneDirection("Left"), pane)
 			local left_pane = window:active_pane()
@@ -385,8 +450,6 @@ config.keys = {
 		key = "F2",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
-			local tab = window:active_tab()
-			tab:set_title("grid")
 			pane:split({ direction = "Right", size = 0.5 })
 			local right_pane = window:active_pane()
 			right_pane:split({ direction = "Bottom", size = 0.5 })
@@ -402,8 +465,6 @@ config.keys = {
 		key = "F3",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
-			local tab = window:active_tab()
-			tab:set_title("wide")
 			pane:split({ direction = "Bottom", size = 0.5 })
 			local bottom_pane = window:active_pane()
 			bottom_pane:split({ direction = "Right", size = 0.5 })
@@ -416,8 +477,6 @@ config.keys = {
 		key = "F4",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
-			local tab = window:active_tab()
-			tab:set_title("55/45")
 			pane:split({ direction = "Right", size = 0.45 })
 			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
 		end),
@@ -429,14 +488,9 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			local mux_window = window:mux_window()
-			local tab1 = window:active_tab()
-			tab1:set_title("ai")
-			local tab2, _, _ = mux_window:spawn_tab({})
-			tab2:set_title("nvim")
-			local tab3, _, _ = mux_window:spawn_tab({})
-			tab3:set_title("term")
-			local tab4, pane4, _ = mux_window:spawn_tab({})
-			tab4:set_title("services")
+			mux_window:spawn_tab({})
+			mux_window:spawn_tab({})
+			local _, pane4, _ = mux_window:spawn_tab({})
 			pane4:split({ direction = "Right", size = 0.5 })
 			window:perform_action(act.ActivateTab(0), pane)
 		end),
@@ -448,15 +502,12 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			local mux_window = window:mux_window()
-			local tab1 = window:active_tab()
-			tab1:set_title("code")
 			pane:split({ direction = "Right", size = 0.35 })
 			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
 			local left_pane = window:active_pane()
 			left_pane:split({ direction = "Bottom", size = 0.30 })
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
-			local tab2, pane2, _ = mux_window:spawn_tab({})
-			tab2:set_title("services")
+			local _, pane2, _ = mux_window:spawn_tab({})
 			pane2:split({ direction = "Right", size = 0.5 })
 			window:perform_action(act.ActivateTab(0), window:active_pane())
 		end),
@@ -468,13 +519,10 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			local mux_window = window:mux_window()
-			local tab1 = window:active_tab()
-			tab1:set_title("code")
 			pane:split({ direction = "Right", size = 0.35 })
 			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
-			local tab2, pane2, _ = mux_window:spawn_tab({})
-			tab2:set_title("services")
+			local _, pane2, _ = mux_window:spawn_tab({})
 			pane2:split({ direction = "Right", size = 0.5 })
 			window:perform_action(act.ActivateTab(0), window:active_pane())
 		end),
@@ -501,7 +549,6 @@ config.keys = {
 					window:perform_action(act.CloseCurrentTab({ confirm = false }), window:active_pane())
 				end
 			end
-			tab:set_title("")
 		end),
 	},
 }

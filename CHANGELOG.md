@@ -7,6 +7,13 @@ All notable changes to this development setup are documented in this file.
 ### Added
 - WezTerm keybindings documentation in README
 - WezTerm layout presets table in README
+- **Extended tool process detection** - WezTerm tab titles now recognize many more tools:
+  - Database clients: psql, mysql, redis-cli, mongosh, sqlite3
+  - Kubernetes: kubectl, k9s, helm
+  - Infrastructure: terraform, ansible
+  - JavaScript runtimes: npm, yarn, pnpm, bun, deno
+  - System monitoring: htop, btop, top
+  - Git, docker-compose, ssh, and language REPLs (ipython, irb, go, cargo, ruby)
 
 ## [2.0.0] - Catppuccin Theme & WezTerm Enhancements
 
