@@ -346,6 +346,8 @@ The default prefix key is `Ctrl+b`. Here are the essential keybindings:
 > **WezTerm Users:** The WezTerm multiplexer uses the same `Ctrl+b` leader key and identical keybindings as tmux. WezTerm also adds:
 > - `Alt + 1-9` - Quick tab switching (no leader needed)
 > - `Alt + n/p` - Quick next/previous tab
+> - `Alt + l` - Navigate to next pane
+> - `Leader + {` / `}` - Move tab left/right
 > - `Leader + F1-F8` - Layout presets (see [WezTerm Layout Presets](#wezterm-layout-presets))
 
 #### Custom Keybindings (changed from defaults)
@@ -449,46 +451,41 @@ Simple two-pane vertical split for side-by-side work.
 - Left pane slightly larger
 - Good for code + terminal or code comparison
 
-#### `tlay-mobile` - Mobile Development Layout
+#### `tlay-3-col` - Three Column Layout
 
-Multi-window setup optimized for mobile app development.
-
-```
-Window 1: claude.ai   - AI assistant / documentation
-Window 2: nvim        - Code editor
-Window 3: testing     - Test runner
-Window 4: services    - Docker/services (split horizontally)
-```
-
-- Creates 4 separate windows
-- Services window has horizontal split for multiple services
-- Starts on window 1
-
-#### `tlay-desk` - Desktop Development Layout
-
-Compact layout for desktop/web development.
+Three equal vertical columns for multi-file comparison or side-by-side work.
 
 ```
-Window 1 (code):
-┌────────────────┬────────┐
-│                │        │
-│     Main       ├────────┤
-│    (code)      │ term   │
-└────────────────┴────────┘
-
-Window 2 (services):
-┌─────────┬─────────┐
-│ docker  │  logs   │
-└─────────┴─────────┘
+┌──────┬──────┬──────┐
+│      │      │      │
+│  1   │  2   │  3   │
+│      │      │      │
+└──────┴──────┴──────┘
 ```
 
-- Main code window with focus layout (65/35 split)
-- Separate services window with horizontal split
-- Starts on code window
+- Three equal 33% columns
+- Great for comparing files or running three services
+
+#### `tlay-3-row` - Three Row Layout
+
+Three equal horizontal rows for stacked workflows.
+
+```
+┌───────────────────┐
+│        1          │
+├───────────────────┤
+│        2          │
+├───────────────────┤
+│        3          │
+└───────────────────┘
+```
+
+- Three equal 33% rows
+- Good for code, output, and logs stacked vertically
 
 #### `tlay-reset` - Reset Layout
 
-Kills all panes and windows except the current one. Use to start fresh.
+Kills all panes and windows except the current one and clears the tab title. Use to start fresh.
 
 #### `vact` - Activate Virtual Environment
 
@@ -500,15 +497,14 @@ vact  # equivalent to: source .venv/bin/activate
 
 ### WezTerm Layout Presets
 
-WezTerm includes the same layout presets as the tmux aliases above, accessible via `Leader + F1-F8`:
+WezTerm includes layout presets accessible via `Leader + F1-F8`:
 
 | Keybinding | Layout | Description |
 |------------|--------|-------------|
 | `Leader + F1` | focus | Main left pane with two stacked right panes |
-| `Leader + F2` | grid | 2x2 equal quadrants |
-| `Leader + F3` | wide | Wide top pane with split bottom |
-| `Leader + F4` | 55/45 | Simple vertical 55/45 split |
-| `Leader + F5` | mobile | 4 windows: ai, nvim, term, services |
-| `Leader + F6` | desk | Focus layout + services window |
-| `Leader + F7` | nvim | Code layout + services window |
+| `Leader + F2` | wide | Wide top pane with split bottom |
+| `Leader + F3` | 3-col | Three equal vertical columns |
+| `Leader + F4` | grid | 2x2 equal quadrants |
+| `Leader + F5` | 55/45 | Simple vertical 55/45 split |
+| `Leader + F6` | 3-row | Three equal horizontal rows |
 | `Leader + F8` | reset | Close all panes/tabs except current |

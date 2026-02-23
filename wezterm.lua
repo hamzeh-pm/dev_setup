@@ -1,7 +1,9 @@
 -- WezTerm Configuration (theme-free base)
 --
 -- To apply a theme, copy colors.lua from a theme directory to ~/.config/wezterm/
--- The color scheme, tabs, and status bar will automatically adapt.
+-- Then add near the top:
+--   local colors = require("colors")
+--   config.color_scheme = colors.scheme
 
 local wezterm = require("wezterm")
 local act = wezterm.action
@@ -15,10 +17,7 @@ if not colors_ok then
 	colors = nil
 end
 
--- Auto-apply color scheme from theme if available
-if colors_ok and colors.scheme then
-	config.color_scheme = colors.scheme
-end
+config.color_scheme = colors.scheme
 
 -- Default accent palette (used if no theme loaded)
 local default_accents = {
@@ -260,10 +259,9 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
 	if not title or #title == 0 then
 		title = tab.active_pane.title
 	end
-	-- Truncate if needed (use smaller margin to show more title)
-	local available = max_width - 3
-	if #title > available then
-		title = string.sub(title, 1, available) .. "…"
+	-- Truncate if needed
+	if #title > max_width - 3 then
+		title = string.sub(title, 1, max_width) .. "…"
 	end
 
 	local accent = get_accent_for_tab(tab.tab_index)
@@ -286,8 +284,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, cfg, hover, max_width)
 		}
 	else
 		-- Use dimmed colors for inactive tabs (dimmed version of active tab colors)
-		local dimmed_accent = adjust_brightness(accent, -60)
-		local dimmed_fg = adjust_brightness(bg, -60)
+		local dimmed_accent = adjust_brightness(accent, -70)
+		local dimmed_fg = adjust_brightness(bg, -70)
 		return {
 			{ Background = { Color = dimmed_accent } },
 			{ Foreground = { Color = dimmed_fg } },
@@ -332,7 +330,7 @@ config.colors = {
 }
 
 config.inactive_pane_hsb = {
-	saturation = 0.9,
+	saturation = 0.8,
 	brightness = 0.7,
 }
 
@@ -340,7 +338,7 @@ config.inactive_pane_hsb = {
 -- KEYBINDINGS (tmux-style with CTRL+B as leader)
 -- ============================================================================
 
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1500 }
+config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 2000 }
 
 config.keys = {
 	-- ========== PANE SPLITTING ==========
@@ -377,6 +375,7 @@ config.keys = {
 	{ key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
 	{ key = "p", mods = "ALT", action = act.ActivateTabRelative(-1) },
 	{ key = "n", mods = "ALT", action = act.ActivateTabRelative(1) },
+	{ key = "l", mods = "ALT", action = act.ActivatePaneDirection("Next") },
 	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
 	{ key = "&", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
 	{ key = "w", mods = "ALT", action = act.ShowTabNavigator },
@@ -400,6 +399,11 @@ config.keys = {
 	{ key = "7", mods = "ALT", action = act.ActivateTab(6) },
 	{ key = "8", mods = "ALT", action = act.ActivateTab(7) },
 	{ key = "9", mods = "ALT", action = act.ActivateTab(8) },
+
+	-- Move tab to the left (relative)
+	{ key = "{", mods = "LEADER", action = act.MoveTabRelative(-1) },
+	-- Move tab to the right (relative)
+	{ key = "}", mods = "LEADER", action = act.MoveTabRelative(1) },
 
 	-- ========== ZOOM/FULLSCREEN PANE ==========
 	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
@@ -445,9 +449,33 @@ config.keys = {
 		end),
 	},
 
-	-- tlay-grid: 2x2 equal grid
+	-- tlay-wide: Top wide, two bottom panes
 	{
 		key = "F2",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			pane:split({ direction = "Bottom", size = 0.5 })
+			local bottom_pane = window:active_pane()
+			bottom_pane:split({ direction = "Right", size = 0.5 })
+			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
+		end),
+	},
+
+	-- tlay-3-col: Three equal vertical columns
+	{
+		key = "F3",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			-- Split 1/3 off the right (pane is now 66% wide)
+			local left_two = pane:split({ direction = "Right", size = 0.66 })
+			-- Split the remaining 66% in half to get 33% | 33% | 33%
+			left_two:split({ direction = "Right", size = 0.5 })
+		end),
+	},
+
+	-- tlay-grid: 2x2 equal grid
+	{
+		key = "F4",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			pane:split({ direction = "Right", size = 0.5 })
@@ -460,21 +488,9 @@ config.keys = {
 		end),
 	},
 
-	-- tlay-wide: Top wide, two bottom panes
-	{
-		key = "F3",
-		mods = "LEADER",
-		action = wezterm.action_callback(function(window, pane)
-			pane:split({ direction = "Bottom", size = 0.5 })
-			local bottom_pane = window:active_pane()
-			bottom_pane:split({ direction = "Right", size = 0.5 })
-			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
-		end),
-	},
-
 	-- tlay-v55: Simple vertical split 55/45
 	{
-		key = "F4",
+		key = "F5",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
 			pane:split({ direction = "Right", size = 0.45 })
@@ -482,49 +498,15 @@ config.keys = {
 		end),
 	},
 
-	-- tlay-mobile: Multiple windows for mobile dev
-	{
-		key = "F5",
-		mods = "LEADER",
-		action = wezterm.action_callback(function(window, pane)
-			local mux_window = window:mux_window()
-			mux_window:spawn_tab({})
-			mux_window:spawn_tab({})
-			local _, pane4, _ = mux_window:spawn_tab({})
-			pane4:split({ direction = "Right", size = 0.5 })
-			window:perform_action(act.ActivateTab(0), pane)
-		end),
-	},
-
-	-- tlay-desk: Code layout with services window
+	-- tlay-3-row: Three equal horizontal rows
 	{
 		key = "F6",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
-			local mux_window = window:mux_window()
-			pane:split({ direction = "Right", size = 0.35 })
-			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
-			local left_pane = window:active_pane()
-			left_pane:split({ direction = "Bottom", size = 0.30 })
-			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
-			local _, pane2, _ = mux_window:spawn_tab({})
-			pane2:split({ direction = "Right", size = 0.5 })
-			window:perform_action(act.ActivateTab(0), window:active_pane())
-		end),
-	},
-
-	-- tlay-nvim: Code layout with nvim terminal and services windows
-	{
-		key = "F7",
-		mods = "LEADER",
-		action = wezterm.action_callback(function(window, pane)
-			local mux_window = window:mux_window()
-			pane:split({ direction = "Right", size = 0.35 })
-			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
-			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
-			local _, pane2, _ = mux_window:spawn_tab({})
-			pane2:split({ direction = "Right", size = 0.5 })
-			window:perform_action(act.ActivateTab(0), window:active_pane())
+			-- Split 1/3 off the bottom
+			local top_two = pane:split({ direction = "Bottom", size = 0.33 })
+			-- Split the remaining top 66% in half
+			top_two:split({ direction = "Bottom", size = 0.5 })
 		end),
 	},
 
@@ -549,6 +531,7 @@ config.keys = {
 					window:perform_action(act.CloseCurrentTab({ confirm = false }), window:active_pane())
 				end
 			end
+			tab:set_title("")
 		end),
 	},
 }

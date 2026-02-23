@@ -14,6 +14,17 @@ All notable changes to this development setup are documented in this file.
   - JavaScript runtimes: npm, yarn, pnpm, bun, deno
   - System monitoring: htop, btop, top
   - Git, docker-compose, ssh, and language REPLs (ipython, irb, go, cargo, ruby)
+- **New layout presets** - `tlay-3-col` (three equal columns, Leader+F3) and `tlay-3-row` (three equal rows, Leader+F6)
+- **Tab reordering** - `Leader + {` / `}` to move tabs left/right
+- **Alt+l pane navigation** - Quick next pane switching without leader key
+
+### Changed
+- Reworked WezTerm layout preset key assignments (F1-F8) for better organization
+- Removed mobile, desk, and nvim multi-window layout presets in favor of simpler single-window layouts
+- Leader key timeout increased from 1500ms to 2000ms
+- Inactive tab dimming adjusted for better contrast
+- Inactive pane saturation reduced from 0.9 to 0.8
+- tlay-reset now clears tab title on reset
 
 ## [2.0.0] - Catppuccin Theme & WezTerm Enhancements
 
