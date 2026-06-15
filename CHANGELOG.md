@@ -4,7 +4,15 @@ All notable changes to this development setup are documented in this file.
 
 ## [Unreleased]
 
+## [2.1.0] - Standardized Dev Environment Setup
+
 ### Added
+- **Modern CLI Tools section** - Per-OS install commands for `ripgrep`, `fd`, `bat`, `jq`, `git-delta`, `httpie`, `tree`, with a one-line description of each
+- **Python: pyenv + uv + pipx section** - Build dependencies per OS, `pyenv` install + shell setup, `uv` install, `pipx` essentials (ruff, mypy, pre-commit, httpie, pgcli, cookiecutter)
+- **Node.js section** - Per-OS install, with a heads-up that Mason/LSP installs in Neovim need Node on `$PATH`
+- **Containers: Podman / Docker section** - Per-OS picks (Docker Desktop on macOS, Podman on Linux), `podman-compose` note, `docker`/`podman` CLI compatibility tip
+- **Expanded zsh plugin list** - Grouped + inline-commented plugins for containers (`docker`, `docker-compose`, `podman`, `kubectl`, `helm`), cloud (`gh`), and quality-of-life (`colored-man-pages`, `command-not-found`, `extract`, `sudo`, `safe-paste`)
+- **Linux clipboard helpers** - `pbcopy`/`pbpaste`/`open` aliases in `zshrc-example` (Linux-only, gated on `$OSTYPE`)
 - WezTerm keybindings documentation in README
 - WezTerm layout presets table in README
 - **Extended tool process detection** - WezTerm tab titles now recognize many more tools:
@@ -25,6 +33,11 @@ All notable changes to this development setup are documented in this file.
 - Inactive tab dimming adjusted for better contrast
 - Inactive pane saturation reduced from 0.9 to 0.8
 - tlay-reset now clears tab title on reset
+- Synced `wezterm.lua` with live config: removed left-click selection mouse binding, switched Alt+p/n tab cycle to Alt+`[`/`]`, F2 layout split adjusted from 0.5 to 0.4
+
+### Fixed
+- WezTerm: guarded `config.color_scheme = colors.scheme` with a nil-check so the config no longer errors when no theme overlay is loaded
+- WezTerm: resolved duplicate `[` LEADER binding (kept `[` for ActivateCopyMode, moved tab reordering to `{` / `}`)
 
 ## [2.0.0] - Catppuccin Theme & WezTerm Enhancements
 

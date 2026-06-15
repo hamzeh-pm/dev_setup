@@ -46,12 +46,16 @@ The base configs are theme-free. Apply a theme by importing/sourcing the overlay
 
 ## Table of Contents
 
+- [Modern CLI Tools](#modern-cli-tools)
 - [Install Zsh](#install-zsh)
 - [Oh My Zsh & Plugins](#install-oh-my-zsh)
 - [Alacritty](#install-alacritty)
 - [WezTerm](#install-wezterm)
 - [tmux](#install-tmux)
 - [Neovim & LazyVim](#install-neovim)
+- [Python: pyenv + uv + pipx](#python-pyenv--uv--pipx)
+- [Node.js](#nodejs)
+- [Containers: Podman / Docker](#containers-podman--docker)
 - [Git Configuration](#git-configuration)
 - [tmux Layout Aliases](#tmux-layout-aliases)
 - [VSCode Vim Keybindings](#setup-neovim-keybinding-for-vscode)
@@ -67,6 +71,35 @@ sudo apt install eza    # For Debian/Ubuntu
 sudo dnf install eza    # For Fedora
 brew install eza        # For macOS
 ```
+
+### Modern CLI Tools
+
+> Modern replacements for classic Unix tools. Used throughout this setup
+> (ripgrep & fd power Neovim/LazyVim; bat replaces cat; delta upgrades git diffs).
+
+```bash
+# macOS
+brew install ripgrep fd bat jq git-delta httpie tree
+
+# Fedora
+sudo dnf install ripgrep fd-find bat jq git-delta httpie tree
+
+# Debian/Ubuntu
+sudo apt install ripgrep fd-find bat jq git-delta httpie tree
+```
+
+| Tool | Replaces | Notes |
+|---|---|---|
+| `ripgrep` (`rg`) | grep | Fast recursive search, respects .gitignore |
+| `fd` | find | Saner syntax; `fd-find` on apt/dnf — binary may be `fdfind` |
+| `bat` | cat | Syntax-highlighted with paging |
+| `jq` | — | JSON query/transform |
+| `git-delta` | git diff | Side-by-side, syntax-highlighted diffs |
+| `httpie` (`http`) | curl | Friendlier HTTP client for API testing |
+| `tree` | — | Directory tree view |
+
+> On Debian/Fedora `fd` is installed as `fdfind` / `fd-find` — symlink it if you want `fd`:
+> `ln -s $(which fdfind) ~/.local/bin/fd`
 
 ### Install zsh
 
@@ -119,15 +152,35 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Enable Oh My Zsh plugins
 plugins=(
-  git              # Git commands and aliases
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  zsh-completions
-  fzf-tab          # fzf-powered tab completion
-  tmux
-  fzf
-  history          # Enhanced history search
-  aliases          # Useful command aliases
+  git                  # Git commands, aliases, and completions
+  zsh-syntax-highlighting  # Highlights commands as you type
+  zsh-autosuggestions  # Fish-style suggestions from history
+  zsh-completions      # Extra completion definitions
+  fzf-tab              # fzf-powered tab completion
+  tmux                 # tmux helpers + autostart options
+  fzf                  # Enables fzf key bindings (Ctrl+R, Ctrl+T)
+  history              # `h` alias + enhanced history search
+  aliases              # `acs` shows all aliases (searchable)
+  direnv               # Per-directory env vars via .envrc
+  copypath             # `copypath` copies current dir to clipboard
+  copyfile             # `copyfile <f>` copies file contents to clipboard
+  virtualenv           # Shows active Python venv in prompt
+  pip                  # pip completions
+  python               # Python aliases (pyfind, pyclean, etc.)
+  # ----- Containers & Kubernetes -----
+  docker               # Docker completions + aliases (dps, dki, drun)
+  docker-compose       # docker-compose completions + `dco` alias
+  podman               # Podman completions (linux-focused)
+  kubectl              # kubectl completions + `k` alias
+  helm                 # Helm chart manager completions
+  # ----- Cloud / GitHub -----
+  gh                   # GitHub CLI completions (gh pr/issue/repo)
+  # ----- Quality of life -----
+  colored-man-pages    # Colorized man pages
+  command-not-found    # Suggests the package to install when cmd missing
+  extract              # `extract foo.tar.gz` — works for any archive
+  sudo                 # ESC ESC prefixes the last command with sudo
+  safe-paste           # Prevents accidental execute on multi-line paste
 )
 
 # Initialize Oh My Zsh
@@ -173,6 +226,28 @@ setopt incappendhistory    # Save history incrementally
 setopt hist_ignore_dups    # Ignore duplicate commands
 setopt hist_reduce_blanks  # Remove extra blanks from commands
 ```
+
+### Linux clipboard helpers (optional)
+
+> Linux is missing macOS's `pbcopy` / `pbpaste` / `open`. These are pure
+> additions (no shadowing of existing commands).
+
+```bash
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  alias open='xdg-open'
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
+```
+
+> Requires `xclip`:
+> `sudo dnf install xclip` (Fedora) or `sudo apt install xclip` (Debian/Ubuntu).
+> On Wayland use `wl-clipboard` and swap `xclip` → `wl-copy` / `wl-paste`.
+
+> **Why no `cat=bat` / `grep=rg` / `find=fd`?** Install the modern tools and
+> call them by their real names. Shadowing classic Unix commands hides which
+> binary you're actually running, and the modern tools have different flags —
+> silent substitution causes subtle bugs.
 
 ### fzf-tab options
 
@@ -310,6 +385,140 @@ after LazyVim you can add your packages and customize options so easily
 Install vim extension by vscodevim for your vscode
 
 Add vim extension extra settings provided in _neovim-lazyvim-vscode-settings.txt_ to your vscode settings file
+
+### Python: pyenv + uv + pipx
+
+Three tools, one role each — install all three:
+
+- **pyenv** — manages multiple Python versions side by side, lets you pin per-project
+- **uv** — Astral's all-in-one replacement for `pip` / `venv` / `pip-tools` (10-100× faster)
+- **pipx** — installs Python CLI tools (ruff, black, mypy, pre-commit, …) in isolated venvs so they don't pollute your project envs
+
+#### Build dependencies (Linux only — needed before pyenv compiles a Python)
+
+```bash
+# Fedora
+sudo dnf install -y make gcc patch zlib-devel bzip2 bzip2-devel readline-devel \
+  sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel libuuid-devel \
+  gdbm-devel libnsl2-devel
+
+# Debian / Ubuntu
+sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
+  libsqlite3-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+  libffi-dev liblzma-dev
+```
+
+macOS uses the system toolchain — no extra build deps needed.
+
+#### Install pyenv
+
+```bash
+# macOS
+brew install pyenv
+
+# Fedora / Debian / Ubuntu
+curl -fsSL https://pyenv.run | bash
+```
+
+Add to `~/.zshrc` (the example in this repo doesn't include it by default — enable per-machine):
+
+```bash
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+```
+
+Then install a Python and set it global:
+
+```bash
+pyenv install 3.12
+pyenv global 3.12
+```
+
+#### Install uv
+
+```bash
+# All platforms
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# or via Homebrew on macOS
+brew install uv
+```
+
+Daily use:
+
+```bash
+uv venv                    # create .venv in current dir
+uv pip install -r requirements.txt
+uv pip install fastapi     # 10-100× faster than pip
+uv run python script.py    # run inside the project's venv
+```
+
+#### Install pipx + essential CLI tools
+
+```bash
+# macOS
+brew install pipx
+
+# Fedora
+sudo dnf install -y pipx
+
+# Debian / Ubuntu
+sudo apt install -y pipx
+```
+
+```bash
+pipx ensurepath  # adds ~/.local/bin to PATH
+
+# Essentials — each gets its own isolated venv
+pipx install ruff           # fast linter + formatter (replaces flake8/black)
+pipx install mypy           # static type checker
+pipx install pre-commit     # git hook framework
+pipx install httpie         # human-friendly curl
+pipx install pgcli          # postgres CLI with autocompletion
+pipx install cookiecutter   # project scaffolding
+```
+
+> Rule of thumb: `pipx` for CLI tools you want available everywhere, `uv` for project dependencies, `pyenv` to pick which Python those tools and projects use.
+
+### Node.js
+
+> **Heads up:** install Node *before* opening Neovim. Mason (LazyVim's LSP/formatter/linter installer) pulls many language servers from npm — without Node on `$PATH`, those installs silently fail and you'll see "command not found" errors deep inside `:Mason`. Several Tree-sitter parsers, Copilot.lua, and `markdown-preview.nvim` also assume Node is present.
+
+```bash
+# macOS
+brew install node
+
+# Fedora
+sudo dnf install -y nodejs npm
+
+# Debian / Ubuntu (current LTS via NodeSource — distro packages are usually too old)
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+If you juggle Node versions per project, install `nvm` instead — the example `~/.zshrc` in this repo has a commented-out NVM block ready to enable.
+
+### Containers: Podman / Docker
+
+| Platform | Recommended | Notes |
+|----------|-------------|-------|
+| macOS | Docker Desktop | Podman works too (`brew install podman` + `podman machine init`) but Docker Desktop is friction-free |
+| Fedora | Podman | Daemonless, rootless by default, ships with the distro |
+| Debian / Ubuntu | Docker Engine or Podman | Both fine; Docker has wider tooling support, Podman is rootless |
+
+```bash
+# macOS — Docker Desktop
+brew install --cask docker
+
+# Fedora — Podman (usually preinstalled) + compose support
+sudo dnf install -y podman podman-compose
+
+# Debian / Ubuntu — Podman
+sudo apt install -y podman podman-compose
+```
+
+Podman is CLI-compatible with Docker: `alias docker=podman` works for most workflows, and `podman-compose` reads the same `docker-compose.yml` files. The `docker` / `docker-compose` / `podman` zsh plugins in this repo's `zshrc-example` give you completions and aliases for whichever you end up using.
 
 ### Git Configuration
 

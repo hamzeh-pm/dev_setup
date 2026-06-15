@@ -312,11 +312,6 @@ config.mouse_bindings = {
 		mods = "NONE",
 		action = act.PasteFrom("Clipboard"),
 	},
-	{
-		event = { Down = { streak = 1, button = "Left" } },
-		mods = "NONE",
-		action = act.CompleteSelection("ClipboardAndPrimarySelection"),
-	},
 }
 
 -- ============================================================================
@@ -373,8 +368,8 @@ config.keys = {
 	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
 	{ key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
 	{ key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
-	{ key = "p", mods = "ALT", action = act.ActivateTabRelative(-1) },
-	{ key = "n", mods = "ALT", action = act.ActivateTabRelative(1) },
+	{ key = "[", mods = "ALT", action = act.ActivateTabRelative(-1) },
+	{ key = "]", mods = "ALT", action = act.ActivateTabRelative(1) },
 	{ key = "l", mods = "ALT", action = act.ActivatePaneDirection("Next") },
 	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
 	{ key = "&", mods = "LEADER|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
@@ -454,7 +449,7 @@ config.keys = {
 		key = "F2",
 		mods = "LEADER",
 		action = wezterm.action_callback(function(window, pane)
-			pane:split({ direction = "Bottom", size = 0.5 })
+			pane:split({ direction = "Bottom", size = 0.4 })
 			local bottom_pane = window:active_pane()
 			bottom_pane:split({ direction = "Right", size = 0.5 })
 			window:perform_action(act.ActivatePaneDirection("Up"), window:active_pane())
@@ -495,18 +490,6 @@ config.keys = {
 		action = wezterm.action_callback(function(window, pane)
 			pane:split({ direction = "Right", size = 0.45 })
 			window:perform_action(act.ActivatePaneDirection("Left"), window:active_pane())
-		end),
-	},
-
-	-- tlay-3-row: Three equal horizontal rows
-	{
-		key = "F6",
-		mods = "LEADER",
-		action = wezterm.action_callback(function(window, pane)
-			-- Split 1/3 off the bottom
-			local top_two = pane:split({ direction = "Bottom", size = 0.33 })
-			-- Split the remaining top 66% in half
-			top_two:split({ direction = "Bottom", size = 0.5 })
 		end),
 	},
 
