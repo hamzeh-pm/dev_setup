@@ -13,3 +13,14 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
   pattern = "*",
   command = "checktime",
 })
+-- Change Django templates file type
+vim.filetype.add({
+  extension = {
+    html = function(path, bufnr)
+      if vim.fn.search("{%\\|{{", "nw") ~= 0 then
+        return "htmldjango"
+      end
+      return "html"
+    end,
+  },
+})

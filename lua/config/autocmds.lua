@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
       local bufnr = vim.api.nvim_create_buf(false, true)
 
       -- 2. Set it to python to trigger the LSP
-      vim.api.nvim_buf_set_option(bufnr, "filetype", "python")
+      vim.bo[bufnr].filetype = "python"
 
       -- 3. Wait a moment for LSP to attach, then delete the buffer
       -- Note: basedpyright usually scans the workspace upon attachment,
